@@ -9,6 +9,8 @@ En este curso se aprende el uso básico de R (https://www.r-project.org/), de Rs
   - Reconocimiento del programa
   - Operaciones aritméticas
 
+https://rpubs.com/wilsonsr/1053957
+
 2. Operaciones básicas  - Álgebra y aritmética básica 
   - Operaciones lógicas 
   - Álgebra lineal
