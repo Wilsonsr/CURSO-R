@@ -41,3 +41,13 @@ En este curso se aprende el uso básico de R (https://www.r-project.org/), de Rs
 - Cuadernos en Anaconda
 - Rstudio cloud
 
+
+
+## Fuentes de información
+ - Adler, J. (2012). R in a Nutshell (2.a ed.). EE. UU.: O'Reilly.
+ - Chang, W. (2013). R Graphics Cookbook. EE. UU.: O'Reilly Media.
+ - Dalgaard, P. (2008). Introductory Statistics with R (Statistics and Computing)
+(2.a ed.). EE. UU.: Springer.
+- Matloff, N. (2011). The Art of R Programming: A Tour of Statistical Software
+- Design (2.a ed.). EE. UU.: No Starch Press.
+- Teetor, P. (2011). R Cookbook. EE. UU.: O'Reilly Media.
