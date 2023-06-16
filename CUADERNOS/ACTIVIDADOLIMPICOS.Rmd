@@ -1,0 +1,76 @@
+---
+title: "Actividad"
+output: html_document
+date: "2023-06-15"
+---
+
+
+El conjunto de datos  olimpicos contiene información sobre los Juegos Olímpicos de Verano desde el año en que se iniciaron hasta los últimos Juegos Olímpicos de Verano de Tokio que tuvieron lugar en Tokio. Los datos contienen parámetros como el nombre, el sexo, la edad, el equipo, el juego, el año, la temporada, el deporte y la medalla.
+
+Los parámetros y los títulos de las columnas se explican por sí mismos.
+La columna Medalla es una columna categórica con valores y referencias como
+- 0: Sin medalla
+- 1 :Medalla de bronce
+- 2 : Medalla de plata
+- 3 : Medalla de oro
+
+
+cargue la base de datos
+
+```{r}
+# Escriba su código
+```
+
+
+1. **Cuantas filas y columnas tiene la base de datos.**
+
+```{r}
+# Escriba su código
+```
+
+
+2. **Cuales son los nombres de las columnas** 
+
+```{r}
+# Escriba su código
+```
+
+3. **Cuantos  deportistas colombianos de genero masculino participaron en tokyo 2020 según la base de datos**
+
+```{r}
+# Escriba su código
+```
+
+4. **Cree un DataFrame llamada `base1`  que contenga sólo las columnas `Sex`, `Year`,`Team`, `Medal`  en ese orden. Imprima el encabezado.**
+
+```{r}
+# Escriba su código
+```
+
+5. **Cuales han sido los 3 países con mayor cantidad de medallas en la historia de los juegos olimpicos**
+
+```{r}
+# Escriba su código
+```
+
+
+7. **¿Cual fue la edad promedio de los  deportistas colombianos, separado para hombres y mujeres en tokyo 2020?**
+
+```{r}
+# Escriba su código
+```
+
+8. **¿Cuál ha sido el deportista de menor y mayor edad que ha participado en unos juegos olimpicos de verano?**
+
+```{r}
+# Escriba su código
+```
+
+
+9. **¿Cual deporte ha dado más medallas a Colombia?**
+
+```{r}
+# Escriba su código
+```
+
+
