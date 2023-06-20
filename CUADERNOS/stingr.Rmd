@@ -1,0 +1,462 @@
+---
+title: "Introducción a R"
+author: "Wilson Sandoval"
+date: "`r Sys.Date()`"
+output: rmdformats::readthedown
+---
+
+# Strings
+
+Introducción
+
+Introducción a la manipulación de cadenas en R.
+
+objetivo: Aprender los conceptos básicos de cómo funcionan las cadenas y cómo crearlas a mano,  el enfoque  estará en las expresiones regulares o expresiones regulares para abreviar. 
+
+Las expresiones regulares son útiles porque las cadenas suelen contener datos no estructurados o semiestructurados, y las expresiones regulares son un lenguaje conciso para describir patrones en cadenas. Cuando mire por primera vez una expresión regular, pensará que un gato caminó sobre su teclado, pero a medida que mejore su comprensión, pronto comenzarán a tener sentido.
+
+usaremos el paquete `stringr` para la manipulación de cadenas, que forma parte del núcleo tidyverse
+
+
+```{r}
+library(tidyverse)
+library(stringr)
+```
+Puede crear cadenas con comillas simples o dobles. Se Recomienda usar siempre ", a menos que desee crear una cadena que contenga varios ".
+
+```{r}
+string1 <- "Esto es un  string"
+string2 <- ' Si queremos incluir un es un "quote"  denttro de un string usa comilla '
+```
+
+```{r}
+string2
+```
+
+## Longitud de la cadena
+Base R contiene muchas funciones para trabajar con cadenas, pero las evitaremos porque pueden ser inconsistentes, lo que las hace difíciles de recordar. En su lugar, usaremos funciones de stringr. 
+
+Estos tienen nombres más intuitivos y todos comienzan con `str_.` Por ejemplo, str_length() te dice el número de caracteres en una cadena:
+
+
+```{r}
+str_length(c("a", "R para cientificos de datos", NA, "Hola a Todos"))
+```
+
+## Combinación de cadenas
+
+Para combinar dos o más cadenas, utilice `str_c()`:
+
+```{r}
+str_c("x", "y")
+```
+
+```{r}
+str_c("x", "y", "z")
+```
+
+
+Usa el  argumento `sep`  para controlar cómo se separan:
+
+```{r}
+str_c("x", "y", sep = ", ")
+```
+
+
+```{r}
+cadena1= "Hola a Todos"
+cadena2="Este curso es una introduccion a R"
+
+str_c(cadena1, cadena2, sep=", ")
+
+```
+
+
+
+Como la mayoría de las otras funciones en R, los valores faltantes son contagiosos. Si desea que se impriman como "NA", utilice 
+
+`str_replace_na()`:
+
+```{r}
+x <- c("abc", NA)
+str_c("|-", x, "-|")
+```
+
+```{r}
+str_c("|-", str_replace_na(x), "-|")
+```
+
+
+
+Como se muestra arriba, `str_c()` está vectorizado y recicla automáticamente los vectores más cortos a la misma longitud que el más largo:
+
+```{r}
+str_c("Hola ", c("Juan", "Pedro", "Luis"), " Como estas?")
+```
+
+
+
+
+Para colapsar un vector de cadenas en una sola cadena, use collapse:
+
+```{r}
+str_c(c("x", "y", "z"), collapse = ", ")
+```
+
+## Eliminación de espacios en blanco innecesarios
+A menudo, el texto contiene espacios en blanco innecesarios.
+
+
+```{r}
+
+blancos <- c("    A la izquierda", "A lña derecha    ", "    ambos lados   ", "   otros     espacios      ")
+
+```
+
+La eliminación de los que están al principio o al final de una cadena se puede lograr usando `str_trim()`.
+
+```{r}
+str_trim(blancos, side = "left")
+```
+
+```{r}
+
+str_trim(blancos, side = "right")
+
+```
+
+```{r}
+str_trim(blancos, side = "both") # por defecto
+```
+
+`str_trim()` Sin embargo, no pudo arreglar la última cadena, donde también había espacios en blanco innecesarios entre palabras. Aquí, str_squishes más apropiado. Elimina los espacios en blanco iniciales o finales, así como los duplicados entre palabras
+
+```{r}
+str_squish(blancos)
+```
+
+
+
+## Cadenas de subconjuntos
+Puede extraer partes de una cadena usando `str_sub()`. Además de la cadena, str_sub() las  `start` y `end`  argumentos que dan la posición (inclusiva) de la subcadena:
+```{r}
+x <- c("Manzana", "Banano", "Pera")
+str_sub(x, 1,3)
+```
+
+```{r}
+str_sub(x, -3, -1)
+```
+
+
+Tenga en cuenta que `str_sub()` no fallará si la cadena es demasiado corta: solo devolverá tanto como sea posible:
+
+```{r}
+str_sub("a", 1, 5)
+```
+
+
+También puede utilizar el formulario de asignación de `str_sub()` para modificar cadenas:
+
+```{r}
+str_sub(x, 1, 1) <- str_to_lower(str_sub(x, 1, 1))
+x
+```
+
+## Local
+
+Arriba  `str_to_lower()` cambio el texto a minúsculas. También se puede usar `str_to_upper()` o `str_to_title()`. Sin embargo, cambiar de mayúsculas y minúsculas es más complicado de lo que podría parecer a primera vista porque los diferentes idiomas tienen reglas diferentes para cambiar de mayúsculas y minúsculas. Puede elegir qué conjunto de reglas usar especificando una configuración regional:
+
+```{r}
+str_to_upper(c("i", "ı"))
+```
+
+
+
+```{r}
+str_to_upper(c("i", "ı"), locale = "tr")
+```
+
+
+
+
+La configuración regional se especifica como un código de idioma ISO 639, que es una abreviatura de dos o tres letras. Si aún no conoce el código de su idioma, Wikipedia tiene una buena lista. Si deja la configuración regional en blanco, se utilizará la configuración regional actual, según lo proporcionado por su sistema operativo.
+
+Otra operación importante que se ve afectada por la configuración regional es la clasificación. La base R order()y sort()las funciones ordenan las cadenas utilizando la configuración regional actual. Si desea un comportamiento robusto en diferentes computadoras, es posible que desee usar `str_sort()`y que toman un argumento `str_order()`adicional :locale
+
+
+```{r}
+x <- c("Manzana", "Banano", "Fresa")
+```
+
+```{r}
+str_sort(x, locale = "es")
+```
+
+## Ejercicios
+
+-  En sus propias palabras, describa la diferencia entre los argumentos sep y collapse para str_c().
+
+
+  
+- Use `str_length()` y `str_sub()`para extraer el carácter del medio de una cadena. ¿Qué harás si la cadena tiene un número par de caracteres?
+
+- ¿Qué `str_wrap()` hace? ¿Cuándo podrías querer usarlo?
+
+
+
+## Coincidencia de patrones con expresiones regulares
+Las expresiones regulares son un lenguaje muy conciso que le permite describir patrones en cadenas. 
+
+Para aprender expresiones regulares, usaremos `str_view()`y `str_view_all()`. Estas funciones toman un vector de caracteres y una expresión regular y le muestran cómo coinciden. 
+
+## Patrones básicos
+Los patrones más simples coinciden con cadenas exactas:
+```{r}
+x <- c("Manzana", "banana", "Pera")
+str_view(x, "an")
+
+```
+
+
+El siguiente paso en complejidad es ., que coincide con cualquier carácter (excepto una nueva línea):
+
+```{r}
+str_view(x, ".a.")
+```
+
+## Repetición
+controlar cuántas veces coincide un patrón:
+
+- ?: 0 o 1
+- +: 1 o más
+- *: 0 o más
+
+```{r}
+x <- "1888 es el año más largo en números romanos: MDCCCLXXXVIII"
+str_view(x, "CC?")
+```
+
+```{r}
+
+```
+
+
+
+```{r}
+str_view(x, "CC+")
+```
+
+
+
+
+```{r}
+str_view(x, 'C[LX]+')
+```
+
+
+
+
+También puede especificar el número de coincidencias con precisión:
+
+- {n}: exactamente n
+- {n,}: n o más
+- {,m}: como mucho m
+- {n,m}: entre n y m
+- str_view(x, "C{2}")
+
+
+
+
+
+```{r}
+str_view(x, "C{2}")
+```
+
+```{r}
+str_view(x, "C{2,}")
+```
+
+
+```{r}
+str_view(x, "C{2,3}")
+```
+
+## Detectar coincidencias
+Para determinar si un vector de caracteres coincide con un patrón, use `str_detect()`. Devuelve un vector lógico de la misma longitud que la entrada:
+
+```{r}
+x <- c("apple", "banana", "pear")
+str_detect(x, "e")
+
+```
+
+
+
+
+```{r}
+#cuantas plabras empiezan por "t"
+sum(str_detect(words, "^t"))
+```
+
+
+```{r}
+# ¿Qué proporción de palabras comunes terminan en vocal?
+mean(str_detect(words, "[aeiou]$"))
+
+```
+
+
+## Sustitución 
+`str_replace()` y `str_replace_all()`le permite reemplazar coincidencias con nuevas cadenas. El uso más simple es reemplazar un patrón con una cadena fija:
+
+```{r}
+x <- c("apple", "pear", "banana")
+str_replace(x, "[aeiou]", "-")
+```
+
+
+```{r}
+str_replace_all(x, "[aeiou]", "-")
+```
+
+```{r}
+str_replace_all(" Vamos Colombia","[aeiou]", "i" )
+```
+
+
+
+
+`str_replace_all()` Puede realizar múltiples reemplazos proporcionando un vector con nombre :
+```{r}
+x <- c("1 casa", "2 carros", "3 personas")
+str_replace_all(x, c("1" = "una", "2" = "dos", "3" = "tres"))
+```
+
+
+
+
+En lugar de reemplazar con una cadena fija, puede usar referencias inversas para insertar componentes de la coincidencia. En el siguiente código, se invierte el orden de la segunda y la tercera palabra.
+
+
+```{r}
+head(sentences)
+```
+
+
+```{r}
+sentences %>% 
+  str_replace("([^ ]+) ([^ ]+) ([^ ]+)", "\\1 \\3 \\2") %>% 
+  head(5)
+```
+
+
+# División
+Úse `str_split()` para dividir una cuerda en pedazos. 
+
+
+```{r}
+sentences %>%
+  head(5) %>% 
+  str_split(" ")
+```
+
+Debido a que cada componente puede contener un número diferente de piezas, esto devuelve una lista. Si está trabajando con un vector de longitud 1, lo más fácil es simplemente extraer el primer elemento de la lista:
+
+```{r}
+"a|b|c|d" %>% str_split("\\|") %>% 
+  .[[1]]
+```
+De lo contrario, al igual que las otras funciones stringr que devuelven una lista, puede usar `simplify = TRUE` para devolver una matriz:
+
+```{r}
+sentences %>%
+  head(5) %>% 
+  str_split(" ", simplify = TRUE)
+```
+
+
+
+
+También puede solicitar un número máximo de piezas:
+
+```{r}
+fields <- c("Nombre: Ricardo", "Pais: COL", "Edad : 35")
+fields %>% str_split(": ", n = 2, simplify = TRUE)
+```
+
+
+
+En lugar de dividir cadenas por patrones, también puede dividirlas por carácter, línea, oración y palabra `boundary()`:
+
+```{r}
+x <- "Esta es una oración . Esta es otra frase."
+str_view_all(x, boundary("word"))
+```
+
+
+
+
+# Ejemplo
+Apliquemos más conceptos de Stringr a un cuerpo de texto. ¿Dónde podemos encontrar texto? ¿Cómo introduciríamos texto en R?
+
+- Una forma sería un 'web scraping', tomando programáticamente todo el texto relevante de una página, o una serie de páginas, piense en las reseñas de productos de Amazon.
+
+- Otra sería importar un cuerpo de texto, como un archivo .txt, a R y luego dividirlo en palabras individuales
+
+- Una tercera forma sería utilizar los datos incluidos en un paquete R. Más comúnmente, los paquetes le brindan acceso a conjuntos de datos en línea demasiado grandes para descargar (Spotify, The New York Times, etc.). Esta técnica, de descargar selectivamente datos relevantes de una base de datos en línea mucho más grande, es la base del concepto de una 'API' [Interfaz de programación de aplicaciones, si se lo está preguntando.] Muchos sitios web también usan API, con archivos descargables para análisis.
+
+
+```{r}
+babynames=babynames::babynames
+```
+Usemos str_detect() para encontrar todos los nombres que incluyen un sonido 'sh':
+
+Como puede ver, str_detect() se ejecuta como un operador booleano, ya que asigna un valor VERDADERO o FALSO para cada entrada en la columna, según nuestra declaración condicional: ¿hay una "sh" en la cadena de caracteres?
+
+
+```{r}
+library(ggplot2)
+library(dplyr)
+babynames %>% 
+  filter(str_detect(name, "Sh") & sex=="F" & year == 1938) %>% 
+  arrange(desc(prop)) %>% 
+  head(20) %>% 
+  ggplot(aes(reorder(name,prop),prop,  fill = name)) + 
+  geom_col() +
+  coord_flip()
+```
+
+```{r}
+babynames %>% 
+  filter(str_detect(name, "Sh") & sex=="F" & year == 1938) %>% 
+  arrange(desc(prop)) %>% 
+  head(20) %>% 
+  mutate(percent = (prop * 100)) %>% 
+  ggplot(aes(reorder(name,percent),percent,  fill = name)) + 
+  geom_col() +
+  coord_flip()
+```
+
+### ¿Cuántos nombres 'z' desde 2000?
+
+
+```{r}
+babynames %>% 
+  filter(year > 2000 & str_detect(name, "Z")) %>% 
+  arrange(desc(prop))
+```
+
+¿Por qué R solo sacó los nombres que comienzan con Z? Porque lo capitalizamos. ¿Cómo conseguimos ambos?
+
+```{r}
+babynames %>% 
+      mutate(Z = str_count(babynames$name, "[zZ]")) %>% 
+      arrange(desc(prop))
+```
+```{r}
+babynames %>% 
+      mutate(Z = str_count(babynames$name, "[zZ]")) %>% 
+      arrange(desc(Z))
+```
+
