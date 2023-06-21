@@ -1,0 +1,839 @@
+---
+title: "Introducción a R"
+author: "Wilson Sandoval Rodriguez"
+date: "`r Sys.Date()`"
+output:
+  prettydoc::html_pretty:
+    theme: cayman #hpstr #leonids #tactile, cayman, 
+    highlight:  github  #vignette
+    float: true
+    toc: true
+
+---
+
+El paquete plotly permite la construcción de gráficas de alta calidad y permite incorporar la interactividad en los gráficos, mostrando botones para hacer zoom en una parte de la gráfica, redefinir los ejes X e Y, mostrar la información que contiene cada dato, mostrar datos filtrando por uno o varios factores… Además, son gráficos de tipo “responsive”: se adaptan a las dimensiones de la ventana en que aparecen.
+
+A continuación se presentan cinco ventajas de usar Plotly para gráficos en R:
+
+
+- Plotly es fácil de usar
+
+La interfaz de Plotly es muy intuitiva y fácil de usar. Basta con cargar los datos en la interfaz web de Plotly, seleccionar el tipo de gráfico que se desea crear y hacer clic en el botón «Generar gráfico». Plotly también proporciona una interfaz de programación para R, lo que permite crear gráficos de forma programática.
+
+- Plotly produce gráficos de alta calidad
+
+Los gráficos generados por Plotly son de alta calidad y se pueden personalizar fácilmente. Por ejemplo, es posible ajustar el tamaño, el color y la fuente de los gráficos, agregar etiquetas y leyendas, y agregar elementos interactivos como botones y casillas de verificación.
+
+- Plotly es gratuito y de código abierto
+
+Plotly es un software de código abierto, lo que significa que es gratuito de usar. Además, Plotly proporciona una versión gratuita y una versión de pago. La versión gratuita tiene todas las funciones de la versión de pago, pero tiene un límite de 1000 gráficos por cuenta.
+
+- Plotly es compatible con muchos lenguajes de programación
+
+Plotly es compatible con R, Python, MATLAB, Julia y Perl. Además, se puede integrar con aplicaciones de Shiny y Dash.
+
+- Plotly proporciona soporte técnico
+
+Plotly proporciona soporte técnico gratuito a todos sus usuarios. Si tiene algún problema con Plotly, puede ponerse en contacto con el equipo de soporte técnico a través de la interfaz web de Plotly o enviar un correo electrónico a support@plot.ly.
+
+¿Qué tipos de gráficos se pueden generar con el paquete plotly en R?
+¿Qué tipos de gráficos se pueden generar con el paquete plotly en R?
+
+El paquete plotly en R permite generar una variedad de gráficos y visualizaciones. Algunos de los tipos de gráficos que se pueden generar son:
+
+- Gráficos de barras
+- Gráficos de líneas
+- Gráficos de puntos
+- Gráficos de dispersión
+- Gráficos de torta
+- Gráficos de mapas
+
+Los gráficos de barras y de líneas son los más comunes, pero el paquete también permite generar gráficos más avanzados, como gráficos de mapas y de dispersión.
+
+El paquete plotly en R es una herramienta muy útil para la visualización de datos. permite crear gráficos interactivos de alta calidad y exportarlos en diversos formatos.
+
+
+
+
+La forma de construir los gráficos es:
+
+Directamente, cargando la librería y usando el comando plot_ly
+
+```{r}
+# cargamos las librerías
+library(plotly)
+library(ggplot2)
+
+```
+
+```{r}
+data("mtcars")
+head(mtcars)
+```
+
+```{r}
+plot_ly(  data = mtcars,   x = ~cyl,  y = ~disp)
+```
+La `plot_ly()`función inicializó la biblioteca de gráficos mientras `data = df` indica el marco de datos donde se almacenan los datos. `x = ~cyle` `y = ~dispindicar` las columnas a graficar en cada eje.
+
+Es posible que haya recibido algunas advertencias que indican que no se ha especificado el "tipo" y el "modo de dispersión" del gráfico. Estos dos argumentos son opcionales, pero son necesarios para modificar el tipo de gráfico que se está creando. Así es como se ve el código cuando especificamos esos argumentos para crear el mismo gráfico:
+
+```{r}
+plot_ly(  data = mtcars,  x = ~cyl,   y = ~disp,   color = ~factor(cyl),
+             type = "scatter",   mode = "markers")
+
+```
+
+
+
+```{r}
+mtcars%>%plot_ly( x = ~hp, y = ~mpg, type = "scatter", 
+      color = I("black"), size = ~cyl)  %>%
+      add_lines(y = ~fitted(loess(mpg ~ hp)),
+            line = list(color = '#07A4B5'),
+            name = "Loess Smoother", showlegend = TRUE) %>%
+  layout(xaxis = list(title = 'horse power '),
+         yaxis = list(title = 'Miles/(US) gallon'),
+         legend = list(x = 0.80, y = 0.90))
+```
+```{r}
+fig <- ggplot2 :: ggplot ( data = mtcars, aes ( x = cyl, y = disp ) )  + geom_point ( aes ( color = factor ( cyl ) ) ) 
+ggplotly ( fig )
+```
+
+##### PIB vs expectativa de vida
+
+
+- Crear una base de datos con una parte de la información que es de interés
+```{r}
+library(dplyr)
+library(gapminder)
+gapminder=gapminder::gapminder
+```
+
+
+
+```{r}
+gapminder_1952<- gapminder %>% filter(year==1952)
+gapminder_2007<- gapminder %>% filter(year==2007)
+```
+
+```{r}
+plot_ly(gapminder_1952, x = ~gdpPercap, y = ~lifeExp) 
+  
+```
+
+
+
+```{r}
+plot_ly(gapminder_2007, x =~gdpPercap, y =~ lifeExp)
+
+```
+
+
+
+
+```{r}
+plot_ly(gapminder, x = ~gdpPercap, y = ~ lifeExp) 
+
+```
+
+
+
+
+
+
+##### Población vs PIB
+
+```{r}
+plot_ly(gapminder_1952, x = ~pop, y = ~gdpPercap)
+
+```
+
+
+```{r}
+plot_ly(gapminder_2007, x = ~pop, y = ~gdpPercap)
+```
+
+
+
+## Poblacion vs Expectativa de vida
+
+```{r}
+plot_ly(gapminder_1952, x = ~pop, y = ~lifeExp)
+
+```
+
+
+```{r}
+plot_ly(gapminder_2007, x = ~pop, y = ~lifeExp)
+
+```
+
+
+  Cuando las curvas son como en la figura Este!, es razonable aplicar 
+escalamiento de los datos, en este caso, logaritmo base 10 en la variable del eje x. 
+
+
+```{r}
+fig=plot_ly(gapminder_1952, x = ~pop, y = ~lifeExp)
+fig
+  
+```
+
+```{r}
+fig<-  layout(fig, xaxis = list(type = "log"))
+fig
+```
+
+
+
+
+
+
+
+-  Interesante poder incorporar más información en el mismo gráfico
+
+
+
+```{r}
+gapminder_2007
+```
+
+
+```{r}
+gapminder_2007 %>%  plot_ly(x = ~gdpPercap, y = ~lifeExp, color = ~continent) %>% layout(xaxis=list(type="log")) 
+  
+```
+
+```{r}
+gapminder_2007 %>%  plot_ly(x = ~gdpPercap, y = ~lifeExp, color = ~continent, size=~pop) %>% layout(xaxis=list(type="log"))
+```
+
+
+
+
+- Ejercicio: Dibuje Tamañoo de población (en escala logarítmica) vs expectativa de vida, y coloree por continente
+
+```{r}
+
+```
+
+
+
+
+```{r}
+p1=ggplot(gapminder_1952,aes(x=pop,y=lifeExp))+
+  geom_point()+
+  scale_x_log10()+
+  facet_wrap(~continent)
+ggplotly(p1)
+```
+
+
+
+
+
+
+
+
+## FIGURAS CON LíNEAS
+
+- GPD mediano por año
+
+```{r}
+by_year <- gapminder %>% group_by(year) %>% summarize(medianGdpPercap=median(gdpPercap))
+```
+
+
+
+
+
+
+
+## FIGURAS CON BARPLOTS
+
+- Expectativa mediana de vida para el a?o 2007 y por continentes
+
+```{r}
+by_continent<- gapminder %>% 
+  filter(year == 2007) %>% 
+  group_by(continent) %>% 
+  summarize(meanLifeExp=mean(lifeExp))
+```
+
+
+```{r}
+
+
+plot_ly(by_continent, x = ~continent, y = ~meanLifeExp, type = 'bar') 
+
+```
+
+
+
+
+
+
+- GPD per capita mediana para el año 1952 y por continentes
+```{r}
+by_continent<- gapminder %>% 
+  filter(year == 1952) %>% 
+  group_by(continent) %>% 
+  summarize(medianGdpPercap=median(gdpPercap))
+```
+
+
+- Figura en barplot
+```{r}
+
+plot_ly(by_continent, x = ~continent, y = ~medianGdpPercap, type = 'bar') %>%
+  layout(barmode = 'group')
+
+
+```
+
+
+- Ejercicio: Filtre las observacioens para Oceania el 1952 y realice un barplot del GDP per capita
+
+
+
+## FIGURAS CON HISTOGRAMAS
+
+-  Distribuci?n de la expectativa de vida en el a?o 2007
+
+```{r}
+library(plotly)
+
+plot_ly(gapminder_2007, x = ~lifeExp, type = 'histogram') 
+
+```
+
+```{r}
+plot_ly(gapminder_2007, x = ~lifeExp, type = 'histogram', xbins = list(size = 5)) %>%
+  layout(title = "Histograma de lifeExp en 2007",
+         xaxis = list(title = "Esperanza de vida"),
+         yaxis = list(title = "Frecuencia")) 
+```
+
+
+- Datos de 1952
+
+
+```{r}
+gapminder_1952 <- gapminder %>%  filter(year == 1952)
+```
+
+
+
+
+
+## FIGURAS CON BOXPLOT
+
+- Datos del año 2007
+```{r}
+gapminder_2007 <- gapminder %>%
+  filter(year == 2007)
+```
+
+- Distribución expectativa de vida por continente
+```{r}
+ggplot(gapminder_2007,aes(x=continent, y=lifeExp))+
+  geom_boxplot()
+```
+```{r}
+
+plot_ly(gapminder_2007, x = ~continent, y = ~lifeExp, type = 'box') 
+
+```
+
+
+- Datos del año 1952
+```{r}
+gapminder_1952 <- gapminder %>%
+  filter(year == 1952)
+
+```
+
+- Ejercicio: Distribuci?n GPD per capita (en logaritmo) por continente
+
+```{r}
+
+```
+library(plotly)
+
+```{r}
+plot_ly(gapminder_1952, x = ~continent, y = ~gdpPercap, type = 'box') %>%
+  layout(yaxis = list(type = 'log'))
+```
+
+
+
+
+Gráfico dinámico
+
+
+
+
+```{r, warning=FALSE}
+plot_ly(data = gapminder, x = ~gdpPercap, y = ~lifeExp, color = ~continent,
+        size = ~pop, frame = ~year, text = ~country, type = 'scatter',
+        mode = 'markers') %>%
+  layout(xaxis = list(type = 'log'))
+
+```
+
+
+```{r}
+colombia=gapminder %>% filter(country=="Colombia")
+colombia
+```
+
+
+
+```{r}
+library(TSstudio)
+
+```
+
+```{r}
+dt=seq(as.Date("1952/01/01"), as.Date("2007/01/01"),by="5 year")
+length(dt)
+
+```
+
+```{r}
+```
+
+
+```{r}
+library(xts)
+
+s1=xts(colombia$lifeExp, dt)
+s1
+```
+
+```{r}
+plot.xts(s1, main = "Esperanza de vida Colombia", ylab="Esperanza de vida en años")
+```
+
+
+
+```{r}
+ts_plot(s1,Xtitle = "aÑO",Ytitle = "Esperanza de vida en años",line.mode ="lines+markers", slider = TRUE)
+```
+
+
+
+
+```{r}
+by_year_continent=gapminder %>% group_by(year,continent) %>% summarise(media=median(lifeExp))
+by_year_continent
+
+
+```
+
+```{r}
+
+ggplot(by_year_continent,aes(x=year,y=media, color=continent))+
+  geom_line()
+  #expand_limits(y = 30)
+```
+
+
+El manejo de fechas es tan importante como aprender el manejo de factores u otros tipos de datos de uso común en un análisis de datos, 
+
+
+## Creación de fechas
+```{r}
+class(as.Date("2020/01/23"))
+```
+
+
+
+## Date
+Se tienen diferentes formas de crear fechas:
+
+- as.Date() : Manejar fechas pero sin tiempos.
+- chron() : Manejar fechas pero con tiempos.
+- as.POSIXct() : Manejar fechas pero con tiempos y zona horaria.
+
+```{r}
+as.Date('1998-09-15')
+
+```
+
+```{r}
+as.Date('1998/9/15')
+```
+Formato por defecto: AAAA, M(M), D(D)
+
+Si se tiene otro formato de entrada, se puede utilizar las siguientes combinaciones para indicar dicho formato
+
+|Símbolo|	Descripción|
+|---|---|
+|%d|	Día en número|
+|%m|	Mes en número abreviado
+|%b|	Mes abreviado |
+|%B|	Mes en nombre completo|
+|%y|	Año en 2 dígitos|
+|%Y|	Año en 4 dígitos|
+
+Aquí algunos ejemplos:
+
+```{r}
+as.Date('Marzo/15: 1992', format = '%B/%d: %Y')
+```
+
+
+```{r}
+as.Date("Septiembre 15, 1998", format = "%B %d, %Y")
+```
+
+
+```{r}
+as.Date("15JUNIO1998", format = "%d%b%Y")
+
+```
+
+
+La fecha establecida, en general, de origen para el manejo de fechas es el 1 de Enero de 1970 (Unix Epoch), y con este día podemos obtener la representación numérica que entiende el ordenador (Epoch Time). Con días antes obtendremos números negativos y posteriores positivos
+
+## Manipulación de fechas
+Extracción de componentes
+
+
+```{r}
+
+
+fechitas <- c(birthday = as.Date("SepTIEMBRE 15, 1998", format = "%B %d, %Y"),
+              begin = as.Date("Enero 2, 1970", format = "%B %d, %Y"),
+              other = as.Date("15JUNIO1998", format = "%d%b%Y"),
+              other2 = as.Date('1998-09-15'),
+              today = as.Date("2023/06/21")) 
+
+weekdays(fechitas)
+```
+
+
+```{r}
+months(fechitas)
+```
+
+```{r}
+quarters(fechitas)
+```
+
+## OperacionesBásicas
+
+```{r}
+mean(fechitas)
+```
+
+
+```{r}
+mean(c(as.Date("2020/01/01"), as.Date("2020/12/31")))
+```
+
+range: Rango de las fechas (Fecha más antigua, Fecha reciente)
+```{r}
+range(fechitas)
+```
+
+
+```{r}
+#sum: Suma de fechas
+as.Date("2020/12/8") + 1
+```
+
+
+```{r}
+#Resta
+as.Date("2020/12/8") - 8
+
+```
+
+
+### Difftime
+
+```{r}
+as.Date("2020/12/8") - as.Date("2020/12/7")
+```
+
+
+
+Las diferencias entre fechas son un nuevo tipo de objeto
+```{r}
+class(as.Date("2020/12/8") - as.Date("2020/12/7"))
+```
+
+
+
+Y podemos decir como es medida esa diferencia:
+```{r}
+f1 <- as.Date("2020/12/8")
+f2 <- as.Date("2020/12/7")
+difftime(f1,f2, units = "secs")
+
+```
+```{r}
+cat(paste("Minutos: ",difftime(f1,f2, units = "mins"),
+"\nHoras: ",difftime(f1,f2, units = "hours"),
+"\nDías: ",difftime(f1,f2, units = "days"),
+"\nSemanas",difftime(f1,f2, units = "weeks")))
+
+```
+## lubridate
+
+Tenemos funciones como today() y now() que nos devuelven la fecha actual.
+
+```{r}
+library(lubridate)
+cat(paste("Fecha actual: ",today(),
+          "\nFecha actual con horario: ",now()))
+
+```
+
+```{r}
+cat(paste("ymd: ",ymd("2020-12-01"),
+          "\nmdy: ", mdy("December 1st, 2020"),
+          "\ndmy: ", dmy("01-Dec-2020")))
+
+```
+
+
+
+Además de poder hacerlas con un objeto numérico:
+
+```{r}
+ymd(20201201)
+```
+
+
+Para crear las fechas con las horas, se utilizan funciones muy similares a las anteriores sólo que ahora se agrega un _ y el formato de fecha con h, m y s
+
+```{r}
+cat(paste("Con hora, minutos y segundos: ",ydm_hms("2020-12-01 15:50:56"),
+          "\nCon hora y minutos: ", ydm_hm("2020-12-01 15:50"),
+          "\nCon hora: ", ydm_h("2020-12-01 15")))
+
+```
+
+
+Donde la zona horaria puede ser fácil agregada
+
+```{r}
+ydm_hms("2020-12-01 15:50:56", tz = "UTC")
+```
+
+
+
+lubridate añade lapsos de tiempos más allá de los que se pueden obtener con difftime.
+
+## Extracciones
+Vamos a tomar el ejemplo dado por ymd(20201201) para obtener algunas componentes con distintas funciones que nos proporciona lubridate.
+
+```{r}
+fecha <- ymd(20201201)
+cat(paste("Fecha: ", fecha,
+          "\nAño: ", year(fecha),
+          "\nMes: ", month(fecha),
+          "\nDía: ", mday(fecha),
+          "\nDía del año: ", yday(fecha),
+          "\nDía de la semana: ", wday(fecha)))
+```
+
+
+Además se puede agregar el nombre abreviado (o no) de algunas componentes
+
+```{r}
+cat(paste("Mes: ", month(fecha, label = TRUE, abbr = TRUE),
+          "\nDía de la semana: ", wday(fecha, label = TRUE, abbr = FALSE)))
+```
+
+
+
+## Duraciones
+Las duraciones son cantidades exactas en segundos
+
+```{r}
+tod_yes <- as.Date("2020/12/8") - as.Date("2020/12/7")
+as.duration(tod_yes)
+
+```
+
+
+Además de que se tienen otros constructores:
+
+```{r}
+cat(paste("Segundos: ",dseconds(10),
+          "\nMinutos: ",dminutes(10),
+          "\nHoras: ", dhours(10),
+          "\nDías: ",ddays(10),
+          "\nSemanas: ", dweeks(10),
+          "\nAños: ",dyears(10)))
+```
+
+
+
+Y con esto ya se pueden realizar operaciones:
+```{r}
+dyears(c(10, 20, 30)) + dweeks(c(5, 6, 7)) + dhours(c(40, 50, 60))
+```
+
+
+
+Aunque al estar tratando con segundos exactos, podemos tener resultados inesperados debido a los cambios de horario que ya están considerados en estas funciones
+
+
+## Zoo y xts
+
+Cuando se esta trabajando con una serie de tiempo se acostumbra el uso de los objetos ts proporcionados por el constructor stats::ts(), aunque otra alternativa más amigable para la manipulación de fechas en series de tiempo la proporciona xts, la cual es una librería derivada de zoo. Para una introducción sobre series de tiempo en R, se puede consultar el siguiente link.
+
+Además de proporcionar funciones y filtros para manipular de manera más sencilla que con un objeto ts, se tienen algunas ventajas sobre los objetos ts ya que estos, al distribuir sus tiempos de manera uniforme y de igual longitud, pueden conllevar a problemas cuando no se tenga esta estructura en los datos, como en datos financieros. Con los objetos zoo y xts no se tendrá problema al trata con tiempos espaciados de manera irregular.
+
+Para objetos zoo y xts, se deben dar dos componentes fundamentales: coredata e index, los cuales son suministrados en los argumentos x y order.by respectivamente en los constructores zoo::zoo() y xts::xts(). Se tienen otros argumentos comunes como la frecuencia en objetos ts.
+
+```{r}
+library(zoo)
+library(xts)
+set.seed(10)
+```
+
+
+#coredata
+```{r}
+data <- rgamma(n = 10, shape = 10, scale = 0.5)
+```
+
+
+# index
+```{r}
+dates <- seq(as.Date("2021-01-01"), length = 10, by = "days")
+```
+
+
+```{r}
+zoo::zoo(x = data, order.by = dates)
+```
+
+
+
+
+
+Además, se permite agregar metadata directamente en el constructor xts().
+```{r}
+one_more_data <- lubridate::today()
+xts_one <- xts::xts(x = data, order.by = dates, meta = one_more_data)
+str(xts_one)
+
+```
+
+
+
+## Conversiones
+De igual manera, para crear un objeto xts, se puede utiliza la función as.xts() la cual soporta objetos de tipo timeSeries, ts, irts, fts, matrix, data.frame y zoo.
+
+```{r}
+(APxst <- as.xts(AirPassengers) %>% head())
+```
+
+
+  
+Y se puede convertir un objeto xts en diferentes formatos sin ningún problema. Esto es muy útil ya que pueden existir funciones que R que sólo admitan objetos ts.
+```{r}
+cat(paste("as.matrix(): ", class(as.matrix(APxst)),
+          "\nas.ts():", class(as.ts(APxst))))
+
+```
+
+
+
+
+## Extración
+Los componentes de un objeto zoo o xts se pueden obtener con las siguientes funciones. La primera regresará una matriz y la segunda un vector tipo Date.
+
+```{r}
+zoo::coredata(xts_one)
+```
+
+
+```{r}
+zoo::index(xts_one)
+```
+ 
+
+
+xts tiene algunas funciones para extraer periodos extremos en la serie los cuales se pueden combinar para obtener información interesante. Los periodos pueden ser secs, seconds, mins, minutes, hours, days, weeks, months, quarters, y years. Las funciones son las siguientes:
+
+last : Obtiene el último periodo solicitado.
+first: Obtiene el primer periodo solicitado.
+
+```{r}
+bad_year <- as.Date("2020-01-01") + 0:365
+bad_year_xts <- xts(x = seq_along(bad_year), order.by = bad_year)
+
+```
+
+
+- Del último mes del 2020, se toma la primera semana y todos los días excepto los últimos 3
+
+```{r}
+xts::last(xts::first(xts::last(bad_year_xts, "1 month"), "1 week"), "-3 days")
+```
+
+
+
+### Filtros
+Referente a los filtros, estos son más sencillos que en un objeto ts, ya que se puede especificar el año, o el mes, el día, etc., mediante los formatos internacionales estandarizados ISO-8601; es decir: AAAA-MM-DD o AAAAMMDD y sus reducciones para obtener sólo un mes, un año o un día en específico
+
+```{r}
+dates <- as.Date("2015-01-01") + 0:1000
+some_days_2015_2017 <- xts(x = seq_along(dates), order.by = dates)
+
+```
+
+Sólo un año
+```{r}
+some_days_2015_2017["2016"]
+```
+
+
+ 
+Un día
+```{r}
+some_days_2015_2017["20160808"]
+```
+
+
+
+También es posible hacer un rango de fechas separando estas con una diagonal /
+
+```{r}
+some_days_2015_2017["20160201/20160220"]
+```
+
+
+ 
+### Todos los datos a partir del primero de febrero
+```{r}
+some_days_2015_2017["20160201/"]
+```
+
+
+O bien utilizando rangos normales
+
+```{r}
+dates <- seq(as.Date("2016-01-01"), as.Date("2016-01-10"), by = "day")
+some_days_2015_2017[dates]
+
+```
+
+```{r}
+some_days_2015_2017[as.POSIXct(dates)]
+```
+
+
+     
+
+
