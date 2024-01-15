@@ -12,26 +12,26 @@ En este curso se aprende el uso básico de R (https://www.r-project.org/), de Rs
 https://rpubs.com/wilsonsr/1053957
 
 2. Operaciones básicas  - Álgebra y aritmética básica 
-  - Operaciones lógicas 
-  - Álgebra lineal
-  - Gráficas básicas
-  - Importación de datos
+      - Operaciones lógicas 
+      - Álgebra lineal
+      - Gráficas básicas
+      - Importación de datos
 
 3. Datos y estadística básica  - Primer acercamiento a los datos 
-  - Manejo de variables 
-  - Manejo de individuos 
-  - Estadística básica 
-  - Exportación de datos
+      - Manejo de variables 
+      - Manejo de individuos 
+      - Estadística básica 
+      - Exportación de datos
 
 4. Tidyverse - Librerias para un manejo armoniosos de hojas de datos
-- Dplyr
-- Ggplot 
-- Stringr
+    - dplyr
+    - ggplot 
+    - stringr
 
 5. Fechas - Librerias para manejar fechas y construcción de funciones 
-- Manejo de lubridate
-- Creación de funciones 
-- R markdown
+    - Manejo de lubridate
+    - Creación de funciones 
+    - R markdown
 
 6. Plotly - Graficos elegantes con R, e interactivos 
 - Gráficas interactivas 
