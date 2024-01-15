@@ -1,6 +1,6 @@
 # Introducción a R
 
-En este curso se aprende el uso básico de R (https://www.r-project.org/), de Rstudio (https://www.rstudio.com/) y de algunas librerias útiles en la analitica de datos, el curso se divide en 7 sesiones de 3 horas.
+En este curso se aprende el uso básico de R (https://www.r-project.org/), de Rstudio (https://www.rstudio.com/) y de algunas librerias útiles en la analitica de datos, el curso se divide en 6 sesiones de 3 horas.
 
 
 1. Introducción a R - Primeros pasos con R 
