@@ -4,10 +4,10 @@ En este curso se aprende el uso básico de R (https://www.r-project.org/), de Rs
 
 
 1. Introducción a R - Primeros pasos con R 
-  - Instalación de software 
-  - Instalación de paquetes 
-  - Reconocimiento del programa
-  - Operaciones aritméticas
+    - Instalación de software 
+    - Instalación de paquetes 
+    - Reconocimiento del programa
+    - Operaciones aritméticas
 
 https://rpubs.com/wilsonsr/1053957
 
