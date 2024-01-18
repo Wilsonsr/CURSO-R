@@ -1,0 +1,982 @@
+---
+title: "Operadores-Importacion datos"
+author: ""
+date:  "`r Sys.Date()` "
+output:
+  prettydoc::html_pretty:
+    theme: cayman
+    highlight: github
+    float: true
+    toc: true 
+---
+# Operadores
+Los operadores son los símbolos que le indican a R que debe realizar una tarea. Combinando datos y operadores es que logramos que R haga su trabajo.
+
+Existen operadores específicos para cada tipo de tarea. Los tipos de operadores principales son los siguientes:
+
+- Aritméticos
+- Relacionales
+- Lógicos
+- De asignación
+
+
+## Operadores aritméticos
+Como su nombre lo indica, este tipo de operador es usado para operaciones aritméticas.
+
+En R tenemos los siguientes operadores aritméticos:
+
+|Operador|	Operación|	Ejemplo|	Resultado|
+|---|---|---|---|
+|+	|Suma|	5 + 3|	8|
+|-	|Resta|	5 - 3|	2|
+|*	|Multiplicación	|6 * 3|	18|
+|/|	División	|5 /3|	1.666667|
+|^	|Potencia|	5 ^ 3|	125|
+|%%|	División entera|	5 %% 3|	2|
+
+
+Es posible realizar operaciones aritméticas con datos de tipo entero y numérico.
+
+Si escribes una operación aritmética en la consola de R y das Enter, esta se realiza y se devuelve su resultado.
+
+```{r}
+15 * 3
+```
+
+
+
+Cuando intentas realizar una operación aritmética con otro tipo de dato, R primero intentará coercionar ese dato a uno numérico. Si la coerción tiene éxito se realizará la operación normalmente, si falla, el resultado será un error.
+
+Por ejemplo, 4 + "tres" 
+
+```{r, eval=FALSE}
+4 + "tres"
+```
+
+
+`## Error in 4 + "tres": argumento no-numérico para operador binario`
+
+El mensaje “non-numeric argument for binary operator” aparece siempre que intentas realizar una operación aritmética con un argumento no numérico. Si te encuentras un un error que contiene este mensaje, es la primera pista para que identifiques donde ha ocurrido un problema.
+
+Cualquier operación aritmética que intentemos con un dato NA, devolverá NA como resultado.
+
+```{r}
+NA - 66
+```
+
+```{r}
+21 * NA
+```
+
+```{r}
+NA ^ 13
+```
+
+
+### La división entera
+La operación que realiza es una división de un número entre otro, pero en lugar de devolver el cociente, nos devuelve el residuo.
+
+Por ejemplo, si hacemos una división entera de 4 entre 2, el resultado será 0. Esta es una división exacta y no tiene residuo.
+
+```{r}
+4 %% 2
+```
+
+
+En cambio, si hacemos una división entera de 5 entre 2, el resultado será 1, pues este es el residuo de la operación.
+
+```{r}
+5 %% 2
+```
+
+
+
+
+## Operadores relacionales
+
+Los operadores lógicos son usados para hacer comparaciones y siempre devuelven como resultado TRUE o FALSE (verdadero o falso, respectivamente).
+
+|Operador	|Comparación	|Ejemplo	|Resultado|
+|---|---|---|---|
+|<	|Menor que|	5 < 3|	FALSE|
+|<=|	Menor o igual que|	5 <= 3|	FALSE|
+|>|	Mayor que|	5 > 3|	TRUE|
+|>=|	Mayor o igual que|	5 >= 3|	TRUE|
+|==|	Exactamente igual que|	5 == 3|	FALSE|
+|!=|	No es igual que	|5 != 3|	TRUE|
+
+Es posible comparar cualquier tipo de dato sin que resulte en un error.
+
+Sin embargo, al usar los operadores `>`, `>=` , `<` y `<=` con cadenas de texto, estos tienen un comportamiento especial.
+
+Por ejemplo, 
+
+```{r}
+"casa" > "barco"
+```
+
+
+
+Este resultado se debe a que se ha hecho una comparación por orden alfabético. 
+
+Cuando intentamos comparar factores, siempre obtendremos como resultado NA y una advertencia acerca de que estos operadores no son significativos para datos de tipo factor.
+
+```{r}
+as.factor("casa") > "barco"
+```
+
+
+##  Operadores lógicos
+Los operadores lógicos son usados para operaciones de álgebra Booleana, es decir, para describir relaciones lógicas, expresadas como verdadero (TRUE) o falso (FALSO).
+
+|Operador|	Comparación|	Ejemplo	|Resultado|
+|---|---|---|---|
+|`x | y`|	x Ó y es verdadero	|`TRUE | FALSE`|	TRUE|
+|`x & y`|	x Y y son verdaderos	|`TRUE & FALSE`|	FALSE|
+|`!x`|	x no es verdadero (negación)	|`!TRUE`|	FALSE|
+|`isTRUE(x)`|	x es verdadero (afirmación)|	`isTRUE(TRUE)`|	TRUE|
+
+
+
+Estos operadores pueden ser usados con estos con datos de tipo numérico, lógico y complejo. Al igual que con los operadores relacionales, los operadores lógicos siempre devuelven TRUE o FALSE.
+
+Para realizar operaciones lógicas, todos los valores numéricos y complejos distintos a 0 son coercionados a TRUE, mientras que 0 siempre es coercionado a FALSE.
+
+Por ejemplo, 5 | 0 resulta en TRUE y 5 & FALSE resulta en FALSE. Podemos comprobar lo anterior con la función isTRUE().
+
+```{r}
+5 | 0
+```
+
+
+```{r}
+5 & 0
+```
+
+
+```{r}
+isTRUE(0)
+```
+
+
+```{r}
+isTRUE(5)
+```
+
+
+Estos operadores se pueden combinar para expresar relaciones complejas.
+
+```{r}
+!(FALSE | FALSE)
+```
+
+## Operadores de asignación
+Este es probablemente el operador más importante de todos, pues nos permite asignar datos a variables.
+
+|Operador	|Operación|
+|---|---|
+|<-|	Asigna un valor a una variable|
+|=	|Asigna un valor a una variable|
+
+En este ejemplo, asignamos valores a las variables estatura y peso.
+
+```{r}
+estatura <- 1.73
+```
+
+```{r}
+peso <- 83
+```
+
+
+Llamamos a sus valores asignados
+
+```{r}
+estatura
+```
+
+```{r}
+peso
+```
+
+
+Usamos los valores asignados para realizar operaciones.
+
+```{r}
+peso / estatura ^ 2
+```
+
+
+
+Cambiamos el valor de una variable a uno nuevo y realizamos operaciones
+
+```{r}
+peso <- 76
+```
+
+
+```{r}
+peso
+```
+
+```{r}
+peso / estatura ^ 2
+```
+
+
+```{r}
+estatura <- 1.56
+
+```
+
+```{r}
+peso <- 48
+```
+
+
+```{r}
+peso / estatura ^ 2
+```
+
+
+
+Asignamos el resultado de una operación a una variable nueva.
+
+```{r}
+bmi <- peso / estatura ^ 2
+```
+
+
+```{r}
+bmi
+```
+
+
+
+#  Estructuras de datos
+
+Las estructuras tienen diferentes características. Entre ellas, las que distinguen a una estructura de otra son su número de dimensiones y si son homogeneas o hereterogeneas.
+
+La siguiente tabla muestra las principales estructuras de control que te encontrarás en R.
+
+|Dimensiones|	Homogeneas|	Heterogeneas|
+|---|---|---|
+|1|	Vector|	Lista|
+|2|	Matriz|	Data frame|
+|n|	Array|	
+
+
+
+## Vectores
+
+Un vector es la estructura de datos más sencilla en R. Un vector es una colección de uno o más datos del mismo tipo.
+
+Todos los vectores tienen tres propiedades:
+
+- Tipo. Un vector tiene el mismo tipo que los datos que contiene. Si tenemos un vector que contiene datos de tipo numérico, el vector será también de tipo numérico. Los vectores son atómicos, pues sólo pueden contener datos de un sólo tipo, no es posible mezclar datos de tipos diferentes dentro de ellos.
+- Largo. Es el número de elementos que contiene un vector. El largo es la única dimensión que tiene esta estructura de datos.
+- Atributos. Los vectores pueden tener metadatos de muchos tipos, los cuales describen características de los datos que contienen. Todos ellos son incluidos en esta propiedad.
+
+Cuando una estructura únicamente puede contener datos de un sólo tipo, como es el caso de los vectores, decimos que es homogénea, pero no implica que necesariamente sea atómica
+
+Como los vectores son la estructura de datos más sencilla de R, datos simples como el número 3, son en realidad vectores. En este caso, un vector de tipo numérico y largo igual a 1.
+
+```{r}
+3
+```
+
+verificamos que el 3 es un vector con la función is.vector().
+
+```{r}
+is.vector(3)
+```
+
+
+Y usamos la función length() para conocer su largo.
+
+```{r}
+length(3)
+```
+
+
+Lo mismo ocurre con los demás tipos de datos, por ejemplo, con cadenas de texto y datos lógicos.
+
+```{r}
+is.vector("tres")
+```
+
+
+```{r}
+is.vector(TRUE)
+```
+
+
+
+
+### Creación de vectores
+Creamos vectores usando la función `c()` (combinar).
+
+Llamamos esta función y le damos como argumento los elementos que deseamos combinar en un vector, separados por comas.
+
+- Vector numérico
+```{r}
+c(1, 2, 3, 5, 8, 13)
+```
+
+- Vector de cadena de texto
+```{r}
+c("arbol", "casa", "persona")
+```
+
+
+
+- Vector lógico
+```{r}
+c(TRUE, TRUE, FALSE, FALSE, TRUE)
+```
+
+
+Si deseamos agregar un elemento a un vector ya existente, podemos hacerlo combinando nuestro vector original con los elementos nuevos y asignando el resultado a nuestro vector original.
+```{r}
+mi_vector <- c(TRUE, FALSE, TRUE)
+```
+
+```{r}
+mi_vector <- c(mi_vector, FALSE)
+```
+
+
+```{r}
+mi_vector
+```
+
+
+
+Naturalmente, podemos crear vectores que son combinación de vectores.
+```{r}
+mi_vector_1 <- c(1, 3, 5)
+mi_vector_2 <- c(2, 4, 6)
+
+mi_vector_3 <- c(mi_vector_1, mi_vector_2)
+
+mi_vector_3
+
+```
+
+
+Si intentamos combinar datos de diferentes tipos en un mismo vector, R realizará coerción automáticamente. El vector resultante será del tipo más flexible entre los datos que contenga, siguiendo las reglas de coerción.
+
+Creamos un vector numérico.
+
+```{r}
+mi_vector <- c(1, 2, 3)
+
+```
+
+```{r}
+class(mi_vector)
+```
+
+
+Si intentamos agregar un dato de tipo cadena de texto, nuestro vector ahora será de tipo cadena de texto.
+
+```{r}
+mi_vector_nuevo <- c(mi_vector, "a")
+```
+
+
+```{r}
+class(mi_vector_nuevo)
+```
+
+
+Como las cadenas de texto son el tipo de dato más flexible, siempre que creamos un vector que incluye un dato de este tipo, el resultado será un vector de texto.
+
+```{r}
+mi_vector_mezcla <- c(FALSE, 2, "tercero", 4.00)
+```
+
+
+```{r}
+class(mi_vector_mezcla)
+```
+
+
+
+Podemos crear vectores de secuencias numéricas usando :. De un lado de los dos puntos escribimos el número de inicio de la secuencia y del otro el final.
+
+Por ejemplo, creamos una secuencia del 1 al 10.
+
+```{r}
+1:10
+```
+
+
+También podemos crear una secuencia del 10 al 1.
+
+```{r}
+10:1
+```
+
+
+
+Las secuencias creadas con : son consecutivas con incrementos o decrementos de 1. Estas secuencias pueden empezar con cualquier número, incluso si este es negativo o tiene cifras decimales
+
+-Número negativo
+```{r}
+-43:-30
+```
+
+
+- Número con cifras decimales
+
+```{r}
+67.23:75
+```
+
+
+
+Si nuestro número de inicio tiene cifras decimales, estas serán respetadas al hacer los incrementos o decrementos de uno en uno. En contraste, si es nuestro número de final el que tiene cifras decimales, este será redondeado.
+
+- Se conservan los decimales del inicio
+```{r}
+-2.48:2
+```
+
+
+
+```{r}
+seq(1,15,2)
+```
+
+### Vectorización de operaciones
+Existen algunas operaciones al aplicarlas a un vector, se aplican a cada uno de sus elementos. A este proceso le llamamos vectorización.
+
+Las operaciones aritméticas y relacionales pueden vectorizarse. Si las aplicamos a un vector, la operación se realizará para cada uno de los elementos que contiene.
+
+Por ejemplo, creamos un vector numérico.
+
+```{r}
+mi_vector <- c(2, 3, 6, 7, 8, 10, 11)
+```
+
+
+Si aplicamos operaciones aritméticas, obtenemos un vector con un resultado por cada elemento.
+
+- Operaciones aritméticas
+
+
+```{r}
+mi_vector + 2
+```
+
+
+```{r}
+mi_vector * 2
+```
+
+```{r}
+mi_vector %% 2
+```
+
+
+
+
+Al aplicar operaciones relacionales, obtenemos un vector de TRUEy FALSE, uno para cada elemento comparado.
+
+```{r}
+mi_vector > 7
+```
+
+```{r}
+mi_vector < 7
+```
+
+```{r}
+mi_vector == 7
+```
+
+
+Esta manera de aplicar una operación es muy eficiente. Comparada con otros procedimientos, requiere de menos tiempo de cómputo, lo cual a veces es considerable, en particular cuando trabajamos con un número grande de datos.
+
+Aunque el nombre de este proceso es vectorización, también funciona, en ciertas circunstancias, para otras estructuras de datos.
+
+
+
+Claro, aquí tienes un ejercicio simple para trabajar con vectores en R:
+
+**Ejercicio:**
+
+Supón que tienes un conjunto de datos de temperaturas en grados Celsius registradas a lo largo de una semana. Quieres convertir estas temperaturas a grados Fahrenheit, calcular la temperatura promedio en Fahrenheit para esa semana, y determinar cuál fue la temperatura máxima y mínima en Celsius.
+
+Datos de temperatura en Celsius: 17, 20, 15, 22, 16, 21, 18
+
+- Pasos del ejercicio:
+
+  - Crea un vector en R con los datos de temperatura en Celsius.
+  - Convertir el vector de temperaturas a Fahrenheit. (F = C * 9/5 + 32).
+  - Calcula el promedio de las temperaturas en Fahrenheit.
+  - Encuentra la temperatura máxima y mínima en Celsius.
+  
+```{r}
+# Escriba sus codigos
+```
+  
+  
+
+## Matrices y arrays
+Las matrices y arrays pueden ser descritas como vectores multidimensionales. Al igual que un vector, únicamente pueden contener datos de un sólo tipo, pero además de largo, tienen más dimensiones.
+
+
+
+Los arrays, por su parte, pueden tener un número arbitrario de dimensiones. Pueden ser cubos, hipercubos y otras formas. 
+
+
+### Creación de matrices
+Creamos matrices en R con la función `matrix()`. La función `matrix()` acepta dos argumentos, `nrow` y `ncol`. Con ellos especificamos el número de renglones y columnas que tendrá nuestra matriz.
+
+- Un vector numérico del uno al doce
+```{r}
+1:12
+```
+
+
+- matrix() sin especificar renglones ni columnas
+```{r}
+matrix(1:12)
+```
+
+
+
+- Tres renglones y cuatro columnas
+
+```{r}
+matrix(1:12, nrow = 3, ncol = 4)
+```
+
+
+- Cuatro columnas y tres columnas
+```{r}
+matrix(1:12, nrow = 4, ncol = 3)
+```
+
+
+Los datos que intentemos agrupar en una matriz serán acomodados en orden, de arriba a abajo, y de izquierda a derecha, hasta formar un rectángulo.
+
+
+Cuando intentamos acomodar un número diferente de elementos y celdas, ocurren dos cosas diferentes.
+
+Si el número de elementos es mayor al número de celdas, se acomodarán todos los datos que sean posibles y los demás se omitirán.
+
+
+```{r}
+matrix(1:12, nrow = 3, ncol = 3)
+```
+
+
+
+
+
+Si, por el contrario, el número de celdas es mayor que el número de elementos, estos se reciclaran. En cuanto los elementos sean insuficientes para acomodarse en las celdas, R nos devolverá una advertencia y se empezaran a usar los elementos a partir del primero de ellos
+
+```{r}
+matrix(1:12, nrow = 5, ncol = 4)
+```
+
+
+
+Otro procedimiento para crear matrices es la unión vectores con las siguientes funciones:
+
+- `cbind()` para unir vectores, usando cada uno como una columna.
+- `rbind()` para unir vectores, usando cada uno como un renglón.
+De este modo podemos crear cuatro vectores y unirlos para formar una matriz. Cada vector será un renglón en esta matriz.
+
+Creamos cuatro vectores, cada uno de largo igual a cuatro.
+
+```{r}
+vector_1 <- 1:4
+vector_2 <- 5:8
+vector_3 <- 9:12
+vector_4 <- 13:16
+```
+
+Usamos `rbind()` para crear un matriz, en la que cada vector será un renglón.
+
+```{r}
+matriz <- rbind(vector_1, vector_2, vector_3, vector_4)
+```
+
+
+```{r}
+matriz
+```
+
+
+
+Si utilizamos `cbind()`, entonces cada vector será una columna.
+
+```{r}
+matriz1 <- cbind(vector_1, vector_2, vector_3, vector_4)
+```
+
+
+```{r}
+matriz1
+```
+
+
+
+Al igual que con matrix(), los elementos de los vectores son reciclados para formar una estructura rectangular y se nos muestra un mensaje de advertencia.
+
+- Elementos de largo diferente
+```{r}
+vector_1 <- 1:2
+vector_2 <- 1:3
+vector_3 <- 1:5
+```
+
+
+```{r}
+matriz_2 <- cbind(vector_1, vector_2, vector_3)
+```
+
+
+```{r}
+matriz_2
+```
+
+
+Finalmente, las matrices pueden contener NAs.
+
+Creamos dos vectores con un NA en ellos.
+
+```{r}
+vector_1 <- c(NA, 1, 2)
+vector_2 <- c(3,  4, NA)
+```
+
+
+Creamos una matriz con rbind().
+
+```{r}
+matriz_3 <- rbind(vector_1, vector_2)
+```
+
+```{r}
+matriz
+```
+
+
+Como `NA` representa datos perdidos, puede estar presente en compañía de todo tipo de de datos.
+
+### Propiedades de las matrices
+No obstante que las matrices y arrays son estructuras que sólo pueden contener un tipo de datos, no son atómicas. Su clase es igual a matriz (matrix) o array segun corresponda.
+
+Verificamos esto usando la función class().
+
+```{r}
+mi_matriz <- matrix(1:10)
+```
+
+```{r}
+class(mi_matriz)
+```
+
+
+
+Las matrices y arrays pueden tener más de una dimensión.
+
+Obtenemos el número de dimensiones de una matriz o array con la función dim(). Esta función nos devolverá varios números, cada uno de ellos indica la cantidad de elementos que tiene una dimensión.
+
+```{r}
+mi_matriz <- matrix(1:12, nrow = 4, ncol = 3)
+dim(mi_matriz)
+```
+
+
+Cabe señalar que si usamos `dim()` con un vector, obtenemos NULL. Esto ocurre con todos los objetos unidimensionales
+
+```{r}
+mi_vector <- 1:12
+```
+
+
+```{r}
+dim(mi_vector)
+```
+
+
+Finalmente, las operaciones aritméticas también son vectorizadas al aplicarlas a una matriz. La operación es aplicada a cada uno de los elementos de la matriz.
+
+Creamos una matriz.
+
+```{r}
+mi_matriz <- matrix(1:9, nrow = 3, ncol = 3)
+```
+
+
+```{r}
+mi_matriz
+```
+
+Intentemos sumar, multiplicar y elevar a la tercera potencia.
+
+-
+```{r}
+mi_matriz + 1
+
+```
+
+- Multiplicación
+```{r}
+mi_matriz * 2
+```
+
+
+
+- Potenciación
+
+```{r}
+mi_matriz ^ 3
+```
+
+
+Si intentamos vectorizar una operación utilizando una matriz con `NAs`, esta se aplicará para los elementos válidos, devolviendo NA cuando corresponda.
+
+Creamos una matriz con NAs.
+
+```{r}
+vector_1 <- c(NA, 2, 3)
+vector_2 <- c(4, 5, NA)
+
+matriz <- rbind(vector_1, vector_2)
+
+```
+
+
+```{r}
+matriz
+```
+
+
+Intentamos dividir sus elementos entre dos.
+
+```{r}
+matriz / 2
+```
+
+
+Finalmente, podemos usar la función `t()` para transponer una matriz
+Creamos una matriz con tres renglones y dos columnas.
+
+```{r}
+matriz <- matrix(1:6, nrow = 3)
+```
+
+
+```{r}
+matriz
+```
+
+Usamos `t()` para transponer.
+
+
+```{r}
+matriz_t <- t(matriz)
+```
+
+
+
+```{r}
+matriz_t
+```
+
+
+**Ejercicio** Construya la matriz en R
+
+$$
+A=\left(\begin{array}{ccc}
+ 6 & 8 & 9\\
+7 & 4 & 2\\
+1 & 5 & 4\\
+10 & 0 & 9
+\end{array}\right)
+$$
+
+
+
+
+## Data frames
+Los data frames son estructuras de datos de dos dimensiones (rectangulares) que pueden contener datos de diferentes tipos, por lo tanto, son heterogéneas. Esta estructura de datos es la más usada para realizar análisis de datos.
+
+
+En términos generales, los renglones en un data frame representan casos, individuos u observaciones, mientras que las columnas representan atributos, rasgos o variables. 
+
+
+```{r}
+library(DT)
+DT::datatable(iris) 
+```
+
+
+
+Para crear un data frame usamos la función `data.frame()`. Esta función nos pedirá un número de vectores igual al número de columnas que deseemos. Todos los vectores que proporcionemos deben tener el mismo largo.
+
+Esto es muy importante: Un data frame está compuesto por vectores.
+
+
+```{r}
+mi_df <- data.frame(
+  "entero" = 1:4, 
+  "factor" = c("a", "b", "c", "d"), 
+  "numero" = c(1.2, 3.4, 4.5, 5.6),
+  "cadena" = as.character(c("a", "b", "c", "d"))
+)
+
+```
+
+
+```{r}
+mi_df
+```
+
+
+```{r}
+dim(mi_df)
+```
+
+
+
+ El largo de un data frame es igual a su número de columnas
+```{r}
+length(mi_df)
+```
+
+
+
+-  `names()` nos permite ver los nombres de las columnas
+
+```{r}
+names(mi_df)
+```
+
+
+
+- La clase de un data frame es data.frame
+
+```{r}
+class(mi_df) 
+```
+
+
+
+**Si los vectores que usamos para construir el data frame no son del mismo largo, los datos no se reciclaran. Se nos devolverá un error**
+
+
+
+Creamos una matriz.
+
+```{r}
+matriz <- matrix(1:12, ncol = 4)
+```
+
+
+
+Usamos `as.data.frame()` para coercionar una matriz a un data frame.
+
+```{r}
+df <- as.data.frame(matriz)
+```
+
+
+Verificamos el resultado
+```{r}
+class(df)
+df
+```
+
+
+
+## Listas
+Las listas, al igual que los vectores, son estructuras de datos unidimensionales, sólo tienen largo, pero a diferencia de los vectores cada uno de sus elementos puede ser de diferente tipo o incluso de diferente clase, por lo que son estructuras heterogéneas.
+
+
+Para crear una lista se usa la función `list()`, que nos pedirá los elementos que deseamos incluir en nuestra lista. Para esta estructura, no importan las dimensiones o largo de los elementos que queramos incluir en ella.
+
+Al igual que con un data frame, tenemos la opción de poner nombre a cada elemento de una lista.
+
+
+```{r}
+mi_vector <- 1:10
+```
+
+
+```{r}
+mi_matriz <- matrix(1:4, nrow = 2)
+```
+
+
+```{r}
+mi_df     <- data.frame("num" = 1:3, "let" = c("a", "b", "c"))
+```
+
+
+```{r}
+mi_lista <- list("un_vector" = mi_vector, "una_matriz" = mi_matriz, "un_df" = mi_df)
+```
+
+
+```{r}
+mi_lista
+
+```
+
+Creamos una lista que contiene otras listas.
+
+```{r}
+lista_recursiva <- list("lista1" = mi_lista, "lista2" = mi_lista)
+```
+
+
+```{r}
+lista_recursiva
+```
+
+
+### Propiedades de una lista
+Una lista es unidimensional, sólo tiene largo.
+
+El largo de una lista es igual al número de elementos que contiene, sin importar de qué tipo o clase sean. Usamos la lista recursiva que creamos en la sección anterior para ilustrar esto.
+
+```{r}
+length(lista_recursiva)
+```
+
+
+Las listas tienen clase list, sin importar qué elementos contienen.
+
+```{r}
+class(lista_recursiva)
+```
+
+
+##  Coerción
+Al igual que con los datos, cuando intentamos hacer operaciones con una estructura de datos, R intenta coercionarla al tipo apropiado para poder llevarlas a cabo con éxito.
+
+También podemos usar alguna de las funciones de la familia as() coercionar de un tipo de estructura de datos. A continuación se presentan las más comunes.
+
+|Función	| Coerciona a|	Coerciona exitosamente a|
+|---|---|---|
+|as.vector()|	Vector |	Matrices|
+|as.matrix()|	Matrices|	Vectores, Data frames|
+|as.data.frame()|	Data frame|	Vectores, Matrices|
+|as.list()|	Lista	|Vectores, Matrices, Data frames|
+
+
+# Importar y exportar datos
+
+
+ Lo primero que tenemos que hacer para empezar un análisis con datos en R es, evidentemente, cargar los datos en R. 
+ 
+
+![](https://www.uv.es/vcoll/imagenes/tt_3_img1_cargar_datos.png)
