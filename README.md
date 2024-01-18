@@ -11,7 +11,7 @@ En este curso se aprende el uso básico de R (https://www.r-project.org/), de Rs
 
 https://rpubs.com/wilsonsr/1053957
 
-2. Operaciones básicas  - Álgebra y aritmética básica 
+2. Operaciones básicas  - Álgebra y aritmética básica https://github.com/Wilsonsr/CURSO-R/blob/main/CUADERNOS/operadores.Rmd
       - Operaciones lógicas 
       - Álgebra lineal
       - Gráficas básicas
