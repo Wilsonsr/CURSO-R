@@ -53,3 +53,6 @@ https://rpubs.com/wilsonsr/1053957
 - Matloff, N. (2011). The Art of R Programming: A Tour of Statistical Software
 - Design (2.a ed.). EE. UU.: No Starch Press.
 - Teetor, P. (2011). R Cookbook. EE. UU.: O'Reilly Media.
+
+- Enlace grabaciones
+https://drive.google.com/drive/folders/131-wHfUAMGPJLVyjs4TSQAvNviPWFozK?usp=sharing
