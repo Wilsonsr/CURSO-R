@@ -17,16 +17,18 @@ https://rpubs.com/wilsonsr/1053957
       - Gráficas básicas
       - Importación de datos
 
-3. Datos y estadística básica  - Primer acercamiento a los datos 
+3. Tidyverse - Librerias para un manejo armoniosos de hojas de datos   https://rpubs.com/wilsonsr/1054596
+    - dplyr
+    - ggplot 
+    - stringr
+
+4. Datos y estadística básica  - Primer acercamiento a los datos 
       - Manejo de variables 
       - Manejo de individuos 
       - Estadística básica 
       - Exportación de datos
 
-4. Tidyverse - Librerias para un manejo armoniosos de hojas de datos
-    - dplyr
-    - ggplot 
-    - stringr
+
 
 5. Fechas - Librerias para manejar fechas y construcción de funciones 
     - Manejo de lubridate
