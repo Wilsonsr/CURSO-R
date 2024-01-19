@@ -1,0 +1,555 @@
+---
+title: "Manejo de datos"
+author: ""
+date:  "`r Sys.Date()` "
+output:
+  prettydoc::html_pretty:
+    theme: cayman
+    highlight: github
+    float: true
+    toc: true 
+---
+
+ Carga de paquetes
+
+```{r}
+#install.packages("gapminder")  # para cargar la base de datos a usar hoy
+#install.packages("tidyverse")
+library(gapminder)  # datos
+library(dplyr)      # Paquete para manipular los datos
+
+```
+
+
+
+
+Recuerde: Filas=individuos y Columnas=variables
+
+Nombres de las variables
+```{r}
+colnames(gapminder)
+```
+
+Dimensión de la base de datos
+```{r}
+dim(gapminder)  # 
+```
+1704 filas   y 6 columnas
+
+
+Información sobre las variables
+```{r}
+str(gapminder)  #
+```
+
+
+
+gapminder  es el nombre de la base de datos
+
+
+
+### LLamar una variable
+```{r}
+gapminder$country
+```
+
+
+
+- Omitir el signo $ en el llmado de la variable
+```{r}
+attach(gapminder)  #
+```
+
+```{r}
+gdpPercap
+```
+
+
+
+###  Cuántos individuos?
+
+```{r}
+ncol(gapminder)# numero dde columnas
+nrow(gapminder) # numero de filas
+dim(gapminder)
+```
+
+
+6 primeras filas de la base y 6 ultimas filas de la base.
+```{r}
+head(gapminder) # 
+tail(gapminder) # 
+```
+
+
+Si se desean ver más datos
+```{r}
+head(gapminder, n=20)
+```
+
+
+
+
+## DPLYR
+`dplyr` es un paquete que permite manipular datos de forma intuitiva. Tiene 5 funciones o verbos principales. Cada uno de ellos hace “una sola cosa”, así que para realizar transformaciones complejas hay que ir concatenando instrucciones sencillas. Esto se hace con el operador pipeline `(%>%)`
+
+
+### Pipeline `(%>%)`  (Ctrl + Shift + M) 
+El pipeline es un simbolo operatorio %>% que sirve para realizar varias operaciones de forma secuencial sin recurrir a parentesis anidados o a sobrescribir muúltiples bases de datos.
+
+
+Para ver como funciona esto como un vector, supongamos que se tiene una variable a la cual se quiere primero obtener su logaritmo, luego su raíz cuadrada y finalmente su promedio con dos cifras significativas. Para realizar esto se debe seguir lo siguiente:
+
+
+```{r}
+x <- c(1, 4, 6, 8)
+y <- round(mean(sqrt(log(x))), 2)
+y
+```
+
+
+Si se utiliza pipeline, el código sería mucho más ordenado. En ese caso, se partiría por el objeto a procesar y luego cada una de las funciones con sus argumentos si es necesario:
+
+```{r}
+x <- c(1, 4, 6, 8)
+y<-x %>% log() %>% sqrt() %>% mean() %>% round(2)
+y
+```
+
+Principales funciones de dplyr
+Hay 6-7 principales.
+
+- `filter()` : permite seleccionar filas (que cumplen una o varias condiciones)
+- `arrange()`: reordena las filas (arrange()).
+- `rename()` : cambia los nombres de las columnas (variables)
+- `select()` : selecciona columnas (variables)
+- `mutate()` : crea nuevas variables
+- `summarise()` : resume (colapsa) unos cuantos valores a uno sólo. Por ejemplo, calcula la media, moda, etc… de un conjunto de valores
+Hay una séptima:
+
+- `group_by()` : permite agrupar filas en función de una o varias condiciones
+- `count()` : contar
+
+
+## Primera Función: **filter** (Filtrar por valores de una variable)
+
+Esta función permite seleccionar filas que cumplen con ciertas condiciones, como tener un valor mayor a un umbral o pertenecer a cierta clase 
+
+
+![](http://gauss.inf.um.es:8080/tabular-tidyverse/www/images/filter.png)
+
+- Por ejemplo: Sí lo queremos ver los paises cuyos valores en la variable "year" es 2007
+```{r}
+gapminder %>% filter(year == 2007) # 1ERA FORMA
+```
+
+```{r}
+gapminder %>% filter(year == 2007)%>%DT::datatable()
+```
+
+
+
+
+Todos los datos excepto 2007
+```{r}
+todomenos2007 <-gapminder %>% filter(year!=2007)  
+```
+
+
+
+```{r}
+filter(gapminder, year==2007)# 2da forma
+```
+  
+  
+
+
+- Por ejemplo: Si lo queremos ver las observaciones EEUU
+
+```{r}
+gapminder %>% filter(country == "United States")
+```
+
+
+
+
+- Ejercicio: Buscar a Colombia
+
+```{r}
+# Escriba su código
+
+
+```
+
+
+
+
+
+- Ejercicio: Solo  lo  las observaciones De Asia
+
+```{r}
+# Escriba su código
+
+```
+
+
+
+- <span style="color: blue;">
+Por ejemplo: ambas al tiempo (EEUU y 2007)
+</span> 
+```{r}
+gapminder %>% filter(country == "United States", year == 2007)
+```
+
+
+
+
+Continente "Americas" expectactiva de vida mayor o igual a 50 y población menor o igual 
+15000000 
+ 
+```{r}
+gapminder%>%filter(continent=="Americas", lifeExp>=50, pop <=15000000 )
+```
+ 
+ 
+**Ejercicio:** filtar que solo aparezcan los continentes Ameerica y Asia
+
+```{r}
+
+```
+
+
+- colombia años 2002
+
+```{r}
+gapminder %>% filter(country == "Colombia", year == 2002)
+```
+
+
+
+
+
+- Expectactiva de vida mayor 0 igual a 30 y menor o igual a 48 años
+
+```{r}
+gapminder %>% filter(lifeExp>=30,lifeExp<=48)
+
+```
+
+
+
+
+- **Ejercicio:** Filtre la base de datos por país (China) en 2002
+
+```{r}
+#Escriba su código
+```
+
+
+- **Ejercicio:** Filtre la base de datos por país (España) despues de 1990 o antes de 1965
+
+```{r}
+# Escriba su código
+```
+
+
+
+
+## Segunda Función: **arrange** 
+
+(Ordenar de acuerdo a valores en una variable)
+
+- Por ejemplo: Ver los paises de menor a mayor a mayor GPD (PIB)
+
+```{r}
+gapminder %>% arrange(gdpPercap)
+```
+
+
+
+
+- Por ejemplo: Ver los paises de mayor a menor  GPD (PIB)
+
+```{r}
+gapminder %>% arrange(desc(gdpPercap))
+```
+
+
+
+
+- ordenar de mayor a menor por expectativa de vida  
+
+```{r}
+gapminder%>% arrange(desc(lifeExp))
+```
+
+
+
+
+- Por ejemplo: Ver TODOs (no solamente 10) los paises de mayor a menor a mayor GPD (PIB)
+```{r}
+gapminder %>% arrange(desc(gdpPercap)) %>% print(n = 20)
+```
+
+
+
+
+
+
+- Como todo: Cosas interesantes pasan cuando se mezclan nociones.
+
+GDP (PIB) del año 2007 en orden descendiente.
+
+ RECOMENDACIÓN para estas tareas: Siempre de la grande a la pequeña:
+
+```{r}
+gapminder %>% filter(year == 2007) %>% arrange(gdpPercap) %>% print(n=100)
+```
+
+
+
+- **Ejercicio:** Ordene la base de datos por Expectativa de vida (LifeExp) en ambos ordenes
+
+```{r}
+
+
+```
+
+
+- **Ejercicio:** Filtre por el año 1957 y reordene (descendente) por tamaño de población
+
+```{r}
+
+```
+
+
+## Tercera Funcion:  **Select**  (columnas)
+
+Esta función permite seleccionar las variables a utilizar dado que en muchos casos nos encontraremos con bases de datos con demasiadas variables y por lo tanto, se querrá reducirlas para solo trabajar en una tabla con las variables necesarias.
+
+![](https://paocorrales.github.io/deExcelaR/img/dplyr-select.png)
+
+
+```{r}
+gapminder %>% select(pop)
+```
+
+
+```{r}
+select(gapminder, pop)  # segunda forma
+```
+
+
+
+Seleccionar dos variables(columnas)
+
+```{r}
+gapminder %>% select(pop, year)
+```
+
+
+```{r}
+gapminder %>% select( -c(year, pop)) # QUITAR LAS COLUMNAS DE Year y pob
+```
+
+
+
+
+
+- **Ejercicio**  Que hace el siguiente código
+
+```{r}
+gapminder %>% select(continent:pop ) %>% filter(year==2007) %>% arrange(pop) %>% print(n=30)
+```
+
+
+
+
+
+
+## Cuarta  Función: **mutate** (Agregar o cambia  variables) agregar columnas
+
+La función mutate permite ir creando nuevas columnas, que serán resultado de aplicar una función. Por tanto, dentro de la función de mutate, siempre deberemos tener dos elementos: el nombre de la nueva columna y la función que tendrá como resultado los valores de la columna.
+
+![](http://gauss.inf.um.es:8080/tabular-tidyverse/www/images/mutate.png)
+
+
+- Por ejemplo: Crear la columna GPD (GPDpercap*pop)
+
+```{r}
+gapminder %>% mutate(PIB=gdpPercap*pop)
+```
+
+
+
+
+- Por ejemplo: Estandarizar el tamaño de la población) en nueva variable
+
+```{r}
+gapminder %>% mutate(population= pop/1000000)
+```
+
+
+
+
+- Por ejemplo: Estandarizar el tamaño de la población en la misma variable que ya existía
+```{r}
+gapminder %>% mutate(pop= pop/1000000)
+```
+
+
+
+
+- **Ejercicio:* Cree la variable Expectativa de vida, en meses. 
+
+```{r}
+
+```
+
+
+
+
+
+
+## Quinta Función: **summarise** (Crear resumenes de información)
+
+
+![](http://gauss.inf.um.es:8080/tabular-tidyverse/www/images/sumarise.png)
+
+
+- Por ejemplo: Expectativa mediana de vida
+
+```{r}
+gapminder %>% summarise(medianLifeExp=median(lifeExp))
+```
+
+
+
+
+
+- Por ejemplo: Expectativa media de vida
+```{r}
+gapminder %>% summarize(expectativamediadevida=mean(lifeExp))
+```
+
+
+
+-Por ejemplo: Expectativas de vida
+
+```{r}
+gapminder %>% summarize(medianLifeExp=median(lifeExp),meanLifeExp=mean(lifeExp))
+```
+
+
+
+```{r}
+gapminder %>% summarize(medianLifeExp=median(lifeExp),meanLifeExp=mean(lifeExp), maximo=max(lifeExp), minimo=min(lifeExp), desviacionestandar
+                        =sd(lifeExp), maxipop=max(pop))
+```
+
+
+
+Nuevamente, cuando se mezclan las funciones, se eleva enormemente la capacidad de la herramienta
+
+-Ejemplo: Expectativa de vida mediana en 1957
+
+```{r}
+gapminder %>% filter(year ==1957) %>% summarize(medianLifeExp=median(lifeExp))
+```
+
+
+- **Ejemplo:** Expectativa mediana de vida y máximo GDP en 1952
+```{r}
+gapminder %>% filter(year == 1957) %>% summarize(medianLifeExp=median(lifeExp),maxGdpPercap=max(gdpPercap))
+```
+
+
+
+
+
+## Sexta  Función: **gruop_by** 
+
+(Hacer resumenes pero por grupos, no por toda la base de datos)
+
+
+![](http://gauss.inf.um.es:8080/tabular-tidyverse/www/images/summarise_by.png)
+
+
+
+- Ejemplo: Mediana de expectativa de vida y GDP máximo por año
+
+```{r}
+gapminder %>% group_by(year) %>% summarize(medianLifeExp=median(lifeExp),maxGdpPercap=max(gdpPercap))
+
+```
+
+
+
+
+
+- Ejemplo: Mediana de expectativa de vida y GDP máximo en 2007 por continente
+
+```{r}
+gapminder %>% filter(year==2007) %>% group_by(continent) %>% summarize(medianLifeExp=median(lifeExp),maxGdpPercap=max(gdpPercap))
+
+```
+
+
+
+
+-Ejemplo: Mediana de expectativa de vida y GDP máximo por año y continente
+
+```{r}
+gapminder %>% group_by(continent,year) %>% summarize(medianLifeExp=median(lifeExp),maxGdpPercap=max(gdpPercap))
+```
+
+
+
+
+- Ejercicio: Qué hace la siguiente línea de código?
+```{r}
+gapminder %>% group_by(year) %>% summarize(meanLifeExp=mean(lifeExp),totalPop=sum(pop))
+```
+
+
+- Ejercicio: Qué hace la siguiente línea de código?
+
+```{r}
+gapminder %>% filter(year==2007) %>% group_by(continent) %>% summarize(meanLifeExp=mean(lifeExp),totalPop=sum(pop))
+
+```
+
+- Ejercicio: Qué hace la siguiente línea de código?
+
+```{r}
+gapminder %>% group_by(year, continent) %>% summarise(meanLifeExp=mean(lifeExp)) %>% print(n = 60)
+
+```
+
+
+
+
+#
+
+- Resumir la mediana del GDP por año y continente
+
+```{r}
+by_year_continent <- gapminder %>% 
+  group_by(year, continent) %>% 
+  summarize(medianGdpPercap=median(gdpPercap))
+```
+
+
+# Función **rename()**
+Renombrar una variable en un data frame es sorprendentemente en R muy difícil de realizar. La función rename() esta diseñada para hacer este proceso de una forma más fácil.
+
+```{r}
+names(gapminder)
+```
+
+```{r}
+gapminder %>% rename(año=year, pais=country)
+```
+
+
+
