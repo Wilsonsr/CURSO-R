@@ -40,12 +40,6 @@ https://rpubs.com/wilsonsr/1053957
 - Opciones de titulo y ejes 
 - dplyr +plotly + ggplot
 
-7. Alternativas a Rstudio ¿Qué hacer cuando Rstudio no esta? 
-- Cuadernos en colaboratory
-- Cuadernos en Anaconda
-- Rstudio cloud
-
-
 
 ## Fuentes de información
  - Adler, J. (2012). R in a Nutshell (2.a ed.). EE. UU.: O'Reilly.
