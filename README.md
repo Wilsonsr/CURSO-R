@@ -15,7 +15,7 @@ En este curso se aprende el uso básico de R (https://www.r-project.org/), de Rs
 
 ## 🛠️ **Sesión 2. Manipulación moderna de datos con Tidyverse**
 
--Introducción a tidyverse y su filosofía
+- Introducción a tidyverse y su filosofía
 - Pipes (|> y %>%) y buenas prácticas
 
 - filter(), select(), mutate(), arrange()
@@ -24,7 +24,7 @@ En este curso se aprende el uso básico de R (https://www.r-project.org/), de Rs
 - Comparación base R vs dplyr
 
 
-##📊  **Sesión 3. Visualización con ggplot2**
+## 📊  **Sesión 3. Visualización con ggplot2**
 
 - Gramática de gráficos con ggplot2
 
@@ -37,7 +37,7 @@ En este curso se aprende el uso básico de R (https://www.r-project.org/), de Rs
 - Introducción a theme_minimal() y ajustes estéticos
 
 
-##📈  **Sesión 4. Estadística descriptiva aplicada**
+## 📈  **Sesión 4. Estadística descriptiva aplicada**
 - Medidas de tendencia central y dispersión
 - Tablas de frecuencia, proporciones y conteos cruzados
 - Manejo de datos faltantes (NA)
@@ -45,7 +45,7 @@ En este curso se aprende el uso básico de R (https://www.r-project.org/), de Rs
 - Integración de dplyr + ggplot2 para análisis descriptivo
 
 
-## 📆  **Sesión 5. Fechas, funciones y automatización básica**
+## 📆 **Sesión 5. Fechas, funciones y automatización básica**
 
 - Manejo de fechas con lubridate
 
@@ -56,7 +56,7 @@ En este curso se aprende el uso básico de R (https://www.r-project.org/), de Rs
 - Introducción a R Markdown para reportes automáticos
 
 
-🌐## **Sesión 6. Visualización interactiva y proyecto final**
+## 🌐 **Sesión 6. Visualización interactiva y proyecto final**
 
 - Introducción a plotly y uso sobre ggplot
 
