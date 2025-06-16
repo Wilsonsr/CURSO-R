@@ -74,5 +74,3 @@ En este curso se aprende el uso básico de R (https://www.r-project.org/), de Rs
 - Design (2.a ed.). EE. UU.: No Starch Press.
 - Teetor, P. (2011). R Cookbook. EE. UU.: O'Reilly Media.
 
-- Enlace grabaciones
-https://drive.google.com/drive/folders/131-wHfUAMGPJLVyjs4TSQAvNviPWFozK?usp=sharing
