@@ -3,7 +3,7 @@
 En este curso se aprende el uso básico de R (https://www.r-project.org/), de Rstudio (https://www.rstudio.com/) y de algunas librerias útiles en la analitica de datos, el curso se divide en 6 sesiones de 3 horas.
 
 
-💻 ## **Sesión 1**. Primeros pasos con R y manipulación básica
+## 💻  **Sesión 1**. Primeros pasos con R y manipulación básica
 
 - ¿Qué es R? ¿Qué es RStudio? Instalación y entorno
 - Operaciones aritméticas y lógicas
@@ -13,7 +13,7 @@ En este curso se aprende el uso básico de R (https://www.r-project.org/), de Rs
 - Carga de datos (read.csv, read.table) y primer análisis de un CSV real
 
 
-🛠️ ## **Sesión 2. Manipulación moderna de datos con Tidyverse**
+## 🛠️ **Sesión 2. Manipulación moderna de datos con Tidyverse**
 
 -Introducción a tidyverse y su filosofía
 - Pipes (|> y %>%) y buenas prácticas
@@ -24,7 +24,7 @@ En este curso se aprende el uso básico de R (https://www.r-project.org/), de Rs
 - Comparación base R vs dplyr
 
 
-📊 ## **Sesión 3. Visualización con ggplot2**
+##📊  **Sesión 3. Visualización con ggplot2**
 
 - Gramática de gráficos con ggplot2
 
@@ -37,7 +37,7 @@ En este curso se aprende el uso básico de R (https://www.r-project.org/), de Rs
 - Introducción a theme_minimal() y ajustes estéticos
 
 
-📈 ## **Sesión 4. Estadística descriptiva aplicada**
+##📈  **Sesión 4. Estadística descriptiva aplicada**
 - Medidas de tendencia central y dispersión
 - Tablas de frecuencia, proporciones y conteos cruzados
 - Manejo de datos faltantes (NA)
@@ -45,7 +45,7 @@ En este curso se aprende el uso básico de R (https://www.r-project.org/), de Rs
 - Integración de dplyr + ggplot2 para análisis descriptivo
 
 
-📆 ## **Sesión 5. Fechas, funciones y automatización básica**
+## 📆  **Sesión 5. Fechas, funciones y automatización básica**
 
 - Manejo de fechas con lubridate
 
