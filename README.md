@@ -3,41 +3,28 @@
 En este curso se aprende el uso básico de R (https://www.r-project.org/), de Rstudio (https://www.rstudio.com/) y de algunas librerias útiles en la analitica de datos, el curso se divide en 6 sesiones de 3 horas.
 
 
-💻 Sesión 1. Primeros pasos con R y manipulación básica
-Objetivo: Familiarizarse con R, RStudio y manipular data.frames usando base R.
-Contenidos:
+💻 **Sesión 1**. Primeros pasos con R y manipulación básica
 
-¿Qué es R? ¿Qué es RStudio? Instalación y entorno
+- ¿Qué es R? ¿Qué es RStudio? Instalación y entorno
+- Operaciones aritméticas y lógicas
+- Tipos de objetos: vectores, matrices, data.frames
+- Exploración de datos: summary(), str(), table(), plot()
 
-Tipos de objetos: vectores, matrices, data.frames
+- Carga de datos (read.csv, read.table) y primer análisis de un CSV real
 
-Operaciones aritméticas y lógicas
 
-Subconjuntos: indexación por posición y condición
+🛠️ **Sesión 2. Manipulación moderna de datos con Tidyverse**
 
-Exploración de datos: summary(), str(), table(), plot()
+-Introducción a tidyverse y su filosofía
+- Pipes (|> y %>%) y buenas prácticas
 
-Carga de datos (read.csv, read.table) y primer análisis de un CSV real
+- filter(), select(), mutate(), arrange()
 
-📝 Actividad: Mini-reto de exploración con gapminder o una base abierta nacional
+- Agrupamiento y resumen: group_by() + summarise()
+- Comparación base R vs dplyr
 
-🛠️ Sesión 2. Manipulación moderna de datos con Tidyverse
-Objetivo: Aplicar dplyr para transformar y resumir datos eficientemente.
-Contenidos:
 
-Introducción a tidyverse y su filosofía
-
-filter(), select(), mutate(), arrange()
-
-Agrupamiento y resumen: group_by() + summarise()
-
-Pipes (|> y %>%) y buenas prácticas
-
-Comparación base R vs dplyr
-
-📝 Actividad: Casos prácticos con penguins o una base de encuestas públicas
-
-📊 Sesión 3. Visualización con ggplot2
+📊 **Sesión 3. Visualización con ggplot2**
 Objetivo: Crear visualizaciones claras y efectivas.
 Contenidos:
 
