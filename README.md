@@ -3,42 +3,99 @@
 En este curso se aprende el uso básico de R (https://www.r-project.org/), de Rstudio (https://www.rstudio.com/) y de algunas librerias útiles en la analitica de datos, el curso se divide en 6 sesiones de 3 horas.
 
 
-1. Introducción a R - Primeros pasos con R 
-    - Instalación de software 
-    - Instalación de paquetes 
-    - Reconocimiento del programa
-    - Operaciones aritméticas
+💻 Sesión 1. Primeros pasos con R y manipulación básica
+Objetivo: Familiarizarse con R, RStudio y manipular data.frames usando base R.
+Contenidos:
 
-https://rpubs.com/wilsonsr/1053957
+¿Qué es R? ¿Qué es RStudio? Instalación y entorno
 
-2. Operaciones básicas  - Álgebra y aritmética básica https://github.com/Wilsonsr/CURSO-R/blob/main/CUADERNOS/operadores.Rmd
-      - Operaciones lógicas 
-      - Álgebra lineal
-      - Gráficas básicas
-      - Importación de datos
+Tipos de objetos: vectores, matrices, data.frames
 
-3. Tidyverse - Librerias para un manejo armoniosos de hojas de datos   https://rpubs.com/wilsonsr/1054596
-    - dplyr
-    - ggplot 
-    - stringr
+Operaciones aritméticas y lógicas
 
-4. Datos y estadística básica  - Primer acercamiento a los datos 
-      - Manejo de variables 
-      - Manejo de individuos 
-      - Estadística básica 
-      - Exportación de datos
+Subconjuntos: indexación por posición y condición
 
+Exploración de datos: summary(), str(), table(), plot()
 
+Carga de datos (read.csv, read.table) y primer análisis de un CSV real
 
-5. Fechas - Librerias para manejar fechas y construcción de funciones 
-    - Manejo de lubridate
-    - Creación de funciones 
-    - R markdown
+📝 Actividad: Mini-reto de exploración con gapminder o una base abierta nacional
 
-6. Plotly - Graficos elegantes con R, e interactivos 
-- Gráficas interactivas 
-- Opciones de titulo y ejes 
-- dplyr +plotly + ggplot
+🛠️ Sesión 2. Manipulación moderna de datos con Tidyverse
+Objetivo: Aplicar dplyr para transformar y resumir datos eficientemente.
+Contenidos:
+
+Introducción a tidyverse y su filosofía
+
+filter(), select(), mutate(), arrange()
+
+Agrupamiento y resumen: group_by() + summarise()
+
+Pipes (|> y %>%) y buenas prácticas
+
+Comparación base R vs dplyr
+
+📝 Actividad: Casos prácticos con penguins o una base de encuestas públicas
+
+📊 Sesión 3. Visualización con ggplot2
+Objetivo: Crear visualizaciones claras y efectivas.
+Contenidos:
+
+Gramática de gráficos con ggplot2
+
+Tipos: barras, dispersión, líneas, histogramas, boxplot
+
+Personalización: colores, etiquetas, escalas
+
+Facetas y uso de temas
+
+Introducción a theme_minimal() y ajustes estéticos
+
+📝 Actividad: Crear visualizaciones para presentar un análisis exploratorio
+
+📈 Sesión 4. Estadística descriptiva aplicada
+Objetivo: Calcular e interpretar estadísticas descriptivas útiles para el análisis.
+Contenidos:
+
+Medidas de tendencia central y dispersión
+
+Tablas de frecuencia, proporciones y conteos cruzados
+
+Manejo de datos faltantes (NA)
+
+Exportación de datos (write.csv, openxlsx)
+
+Integración de dplyr + ggplot2 para análisis descriptivo
+
+📝 Actividad: Informe descriptivo de una base real con Markdown o script
+
+📆 Sesión 5. Fechas, funciones y automatización básica
+Objetivo: Manejar datos temporales y automatizar procesos básicos.
+Contenidos:
+
+Manejo de fechas con lubridate
+
+if, for, while en contexto aplicado
+
+Crear funciones propias (function)
+
+Introducción a R Markdown para reportes automáticos
+
+📝 Actividad: Calcular edad, agrupar eventos por mes, generar funciones simples
+
+🌐 Sesión 6. Visualización interactiva y proyecto final
+Objetivo: Crear visualizaciones interactivas y aplicar lo aprendido en un caso completo.
+Contenidos:
+
+Introducción a plotly y uso sobre ggplot
+
+Gráficas interactivas: hover, zoom, etiquetas dinámicas
+
+Integración con dplyr para dashboards simples
+
+Presentación de un mini-proyecto final en clase (parejas o grupos)
+
+📝 Actividad: Cada grupo explora una base, hace limpieza, análisis y 2 visualizaciones (una ggplot y otra plotly) y lo presenta.
 
 
 ## Fuentes de información
