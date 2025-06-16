@@ -63,6 +63,17 @@ En este curso se aprende el uso básico de R (https://www.r-project.org/), de Rs
 - Integración con dplyr para dashboards simples
 
 
+| Sesión | Descripción | Material o Enlace |
+|--------|-------------|-------------------|
+| 💻 **Sesión 1** | Primeros pasos con R y manipulación básica: instalación, entorno, operaciones aritméticas y lógicas, tipos de objetos, exploración básica, carga de datos. | [Enlace al material de la sesión 1](#) |
+| 🛠️ **Sesión 2** | Manipulación moderna de datos con tidyverse: uso de `dplyr`, pipes, filtrado, transformación, resumen y comparación con base R. | [Enlace al material de la sesión 2](#) |
+| 📊 **Sesión 3** | Visualización con `ggplot2`: gramática de gráficos, tipos de visualización, personalización, facetas y estilos. | [Enlace al material de la sesión 3](#) |
+| 📈 **Sesión 4** | Estadística descriptiva aplicada: medidas resumen, tablas de frecuencia, tratamiento de `NA`, exportación y análisis exploratorio integrado. | [Enlace al material de la sesión 4](#) |
+| 📆 **Sesión 5** | Fechas, funciones y automatización básica: manejo con `lubridate`, control de flujo (`if`, `for`, `while`), creación de funciones y uso de R Markdown. | [Enlace al material de la sesión 5](#) |
+| 🌐 **Sesión 6** | Visualización interactiva y proyecto final: uso de `plotly`, integración con `dplyr`, gráficos dinámicos y entrega de proyecto aplicado. | [Enlace al material de la sesión 6](#) |
+
+
+
 ## Fuentes de información
  - Adler, J. (2012). R in a Nutshell (2.a ed.). EE. UU.: O'Reilly.
  - Chang, W. (2013). R Graphics Cookbook. EE. UU.: O'Reilly Media.
