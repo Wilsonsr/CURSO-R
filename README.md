@@ -8,8 +8,7 @@ En este curso se aprende el uso básico de R (https://www.r-project.org/), de Rs
 - ¿Qué es R? ¿Qué es RStudio? Instalación y entorno
 - Operaciones aritméticas y lógicas
 - Tipos de objetos: vectores, matrices, data.frames
-- Exploración de datos: summary(), str(), table(), plot()
-
+- Exploración de datos: `summary()`, `str()`, `table()`
 - Carga de datos (read.csv, read.table) y primer análisis de un CSV real
 
 
