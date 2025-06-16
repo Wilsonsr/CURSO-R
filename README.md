@@ -14,12 +14,11 @@ En este curso se aprende el uso básico de R (https://www.r-project.org/), de Rs
 
 ## 🛠️ **Sesión 2. Manipulación moderna de datos con Tidyverse**
 
-- Introducción a tidyverse y su filosofía
-- Pipes (|> y %>%) y buenas prácticas
+- Introducción a tidyverse
+- Pipes (`|>` y `%>%`) y buenas prácticas
 
-- filter(), select(), mutate(), arrange()
-
-- Agrupamiento y resumen: group_by() + summarise()
+-  `filter()`,`arrange()`,  `select()`, `mutate()`
+-   Agrupamiento y resumen: `group_by()` + `summarise()`
 - Comparación base R vs dplyr
 
 
