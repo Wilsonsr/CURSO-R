@@ -63,7 +63,7 @@ ggplot(millas)+
 ggplot(millas,aes(x=cilindrada, y=autopista))+
   geom_point()
 
-
+#install.packages("plotly")
 library(plotly)
 
 
@@ -113,8 +113,6 @@ ggplot(data = millas) +
 #(Sugerencia: escribe ?millas para leer la documentación de ayuda para este conjunto de datos). 
 #¿Cómo puedes ver esta información cuando ejecutas millas?
 
-?millas
-str(millas)
 
 
 
@@ -318,23 +316,3 @@ ggplot(usa,aes(long, lat, group=group))+
 
 
 
-##############################################################
-#install.packages("ggmap")
-library(ggmap)
-library(PKI)
-## Loading required package: base64enc
-install.packages("packrat")
-library(packrat)
-#Forma 1
-localizacion="Fundación Universitaria Los Libertadores"
-#Forma 2
-#localizacion=c(lat=4.656748400,lon= -74.056341000)
-
-
-myMap <- get_map(location=localizacion, zoom= 18, source="google", 
-                 maptype="roadmap", crop=TRUE)
-
-ggmap(myMap)
-
-
-library(ggmap)
