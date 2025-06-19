@@ -18,8 +18,19 @@ La columna Medalla es una columna categórica con valores y referencias como
 cargue la base de datos
 
 ```{r}
-# Escriba su código
+library(dplyr)
+library(rio)
+library(DT)
 ```
+
+
+```{r}
+olimpicos= rio::import("https://github.com/Wilsonsr/CURSO-R/raw/main/BASES/olimpicos.csv")
+```
+```{r}
+head(olimpicos)
+```
+
 
 
 1. **Cuantas filas y columnas tiene la base de datos.**
