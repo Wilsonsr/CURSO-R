@@ -88,4 +88,41 @@ gapminder %>% select(-c(year, pop))
 ###
 gapminder %>% select(2:4)
 gapminder %>% select(c(1,3,5))
+
+colnames(gapminder)
+
+gapminder_1= gapminder %>% mutate(population = pop / 1e6)
+gapminder_1
+
+pib=  gapminder %>% mutate(PIB = gdpPercap * pop) %>% select("PIB")
+pib
+
+gapminder %>% select(-c(pop))
+
+View(gapminder)
+
+## Función group_by() – Agrupar antes de resumir
+
+gapminder %>% group_by(year) %>% summarise(medianLifeExp = median(lifeExp), 
+                                           maxGdpPercap = max(gdpPercap),
+                                           promedio_lifeexpec=mean(lifeExp),
+                                           dev=sd(lifeExp))
+
+gapminder %>% group_by(continent, year) %>% 
+  summarise(medianLifeExp = median(lifeExp),
+            maxGdpPercap = max(gdpPercap))
+
+gapminder
+
+library(readr)
+library(writexl)
+
+#write_xlsx(gapminder, "mi_base_gapminder.xlsx")
+
+#Función rename() – Renombrar variables
+gapminder %>% rename(año=year, pais=country, expec_vida=lifeExp )
+
+
+
+
                      

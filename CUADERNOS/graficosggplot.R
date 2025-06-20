@@ -1,30 +1,46 @@
 #install.packages("tidyverse")
 library(tidyverse)
 
-# install.packages("ggplot2")
+#install.packages("ggplot2")
 library(ggplot2)
 
 #install.packages("datos")
 library(datos)
 
-millas=datos::millas
+millas =  datos::millas    ### obliga a que millas sea del paquete datos
+
+data()
 
 attach(millas)
+
 
 View(millas)
 
 ?millas
 
+
+
 #Para graficar millas, ejecuta este código para poner cilindrada en el eje x y autopista en el eje y
 
+# opcion 1
 ggplot(data= millas) +
   geom_point(mapping=aes(x = cilindrada, y = autopista))
 
-
-
+ 
+# opcion 2
 ggplot(millas,aes(x=cilindrada, y=autopista))+
   geom_point()
 
+ggplot(millas, aes(x=cilindrada, y=ciudad ))+
+  geom_point()
+
+
+#### diagrama de barras  para fabricante 
+ggplot(millas, aes(x=fabricante))+
+  geom_bar(  fill="steelblue" )+
+  labs(title = "Cantidad de autos por fabricante",
+       y="Cantidad de autos")+
+  theme_bw()
 
 
 # a mayor tamaño del cilindrada el rendimiento es menor (menos millas)
@@ -42,6 +58,7 @@ ggplot(data = millas)+
 
 
 # ¿Qué describe la variable traccion? Lee la ayuda de ?millas para encontrar la respuesta.
+
 
 
 #Realiza un gráfico de dispersión de autopista versus cilindros.
@@ -70,7 +87,9 @@ library(plotly)
 gg<-ggplot(millas,aes(x=cilindrada, y=autopista, color=clase))+
   geom_point()
 
-ggplotly(gg)
+gg
+
+ggplotly(gg) ###
 
 # no es buena idea
 ggplot(data = millas) +
@@ -86,7 +105,7 @@ ggplot(data = millas) +
 
 #shape
 ggplot(data = millas) +
-  geom_point(mapping = aes(x = cilindrada, y = autopista, shape = clase))
+  geom_point(mapping = aes(x = cilindrada, y = autopista, shape = clase, color=transmision))
 
 
 ####Todos los puntos azules
@@ -99,7 +118,7 @@ ggplot(millas) +
 
 #¿Qué no va bien en este código? ¿Por qué hay puntos que no son azules?
 ggplot(data = millas) +
-  geom_point(mapping = aes(x = cilindrada, y = autopista, color = "blue"))
+  geom_point(mapping = aes(x = cilindrada, y = autopista, color = fabricante))
 
 
 #ubicacio del parentesis
@@ -113,13 +132,16 @@ ggplot(data = millas) +
 #(Sugerencia: escribe ?millas para leer la documentación de ayuda para este conjunto de datos). 
 #¿Cómo puedes ver esta información cuando ejecutas millas?
 
+str(millas)
+
+
 
 
 
 # Asigna una variable continua a color, size, y shape. ¿Cómo se comportan estas estéticas de manera diferente para variables categóricas y variables continuas?
 
 
-ggplot(millas,aes(x=cilindrada, y=autopista, color=ciudad))+
+ggplot(millas,aes(x=cilindrada, y=autopista, size=ciudad))+
   geom_point()
 
 
@@ -137,6 +159,9 @@ ggplot(millas,aes(x=cilindrada, y=autopista, stroke=ciudad))+
 
 #¿Qué ocurre si se asigna o mapea una estética a algo diferente del nombre de una variable, como aes(color = cilindrada < 5)?
 
+ggplot(data = millas, aes(x=cilindrada, y=ciudad, color=cilindrada<5))+
+  geom_point()
+
 
 
 #########  Separar en facetas #####
@@ -148,7 +173,7 @@ ggplot(millas,aes(x=cilindrada, y=autopista, stroke=ciudad))+
 
 ggplot(data = millas) +
   geom_point(mapping = aes(x = cilindrada, y = autopista))+
-  facet_wrap(~ clase, nrow = 2)
+  facet_wrap(~ clase, nrow = 3)
 
 
 ggplot(data = millas) +
@@ -159,7 +184,7 @@ ggplot(data = millas) +
 
 ggplot(data = millas) +
   geom_point(mapping = aes(x = cilindrada, y = autopista, color=clase)) +
-  facet_grid(traccion ~ cilindros)  
+  facet_grid(traccion ~ transmision)  
 
 # Qué gráfica el siguiente código? ¿Qué hace . ?
 
@@ -174,7 +199,23 @@ ggplot(data = millas) +
 
 ggplot(data = millas) +
   geom_point(mapping = aes(x = cilindrada, y = autopista)) +
-  facet_grid(. ~ cilindros)
+  facet_grid(. ~ traccion)
+
+
+#### ejercicio
+# muestre la cantidad de vehiculos por fabricante  para separar por tipo de 
+#vehiculo
+
+ggplot(data = millas) +
+  geom_point(mapping = aes(x = fabricante, y = clase)) +
+  facet_grid(clase ~ .)
+
+ggplot(millas, aes(x=fabricante))+
+  geom_bar(fill="steelblue")+
+  geom_text( aes(label=..count..), stat = "count", vjust=-0.5)+
+  facet_wrap(~clase)+
+  theme(axis.text.x = element_text(angle=90))
+
 
 
 ############################################
@@ -277,10 +318,18 @@ ggplot(data = diamantes) +
 ggplot(data = millas, mapping = aes(x = clase, y = autopista)) +
   geom_boxplot(color="blue")
 
+
 #intercambiar los ejes x y y
 ggplot(data = millas, mapping = aes(x = clase, y = autopista)) +
   geom_boxplot() +
   coord_flip()
+
+### histograma  para la variable  autopista  
+
+ggplot(millas, aes(autopista) )+
+  geom_histogram(fill="steelblue", color="white", binwidth = 3)
+
+
 
 ##### mapas
 install.packages("maps")
@@ -308,11 +357,12 @@ ggplot(nueva_zelanda, aes(long, lat, group = group)) +
 EstadosUnidos<-map_data("usa")
 View(EstadosUnidos)
 
-ggplot(usa,aes(long, lat, group=group))+
+ggplot(EstadosUnidos,aes(long, lat, group=group))+
   geom_polygon(fill="red", colour="black")
 
 
 #########################################
 
+maps::map()
 
 
