@@ -1,0 +1,631 @@
+---
+title: "Estadística"
+author: "Wilson Sandoval Rodriguez"
+date: "`r Sys.Date()`"
+output:
+  prettydoc::html_pretty:
+    theme: cayman
+    highlight: github
+---
+
+
+## HISTOGRAMAS DE FRECUENCIA RELATIVA
+Un histograma de frecuencia relativa es semejante a una gráfica de barras, pero se usa para
+graficar cantidades en lugar de datos cualitativos. 
+
+
+#### Definición:
+Un histograma de frecuencia relativa, para un conjunto de datos cuantitativo
+es una gráfica de barras en la que la altura de la barra muestra “con qué frecuencia”
+(medida como proporción o frecuencia relativa) las mediciones caen en una
+clase o subintervalo particular. Las clases o subintervalos se grafican a lo largo del eje horizontal.
+
+
+Como regla práctica, el número de clases debe ser de 5 a 12; cuantos más datos haya,
+más clases se requieren.
+
+
+Cuando los datos contienen una gran cantidad de elementos, para facilitar los cálculos es necesario agruparlos, a estos grupos se los llama **intervalos o clases.**
+
+Las reglas generales para formas distribuciones de frecuencias para datos agrupados en intervalos son:
+
+- Calcule el Rango (R): También se llama recorrido o amplitud total. Es la diferencia entre el valor mayor y el menor de los datos.
+$$Rango=Dato \  mayor - Dato \ menor$$
+
+-  Seleccione el Número de Intervalos de Clase $(n_i)$.- No debe ser menor de 5 y mayor de 12,
+
+
+
+## Regla de Sturges
+Es una regla práctica acerca del número de clases que deben considerar al elaborarse un histograma
+
+Este número viene dado por la siguiente expresión:
+
+$$\displaystyle c=1+3.322\cdot \log N$$
+
+siendo N la cantidad de datos.
+
+El valor de $c$ (número de clases) es común redondearlo al entero más cercano.
+
+- Calcule el Ancho del Intervalo $(i)$ 
+
+$$i=\dfrac{R}{n_{i}}$$
+
+
+Cuando el valor de $i$ no es exacto, se debe redondear al valor superior más cercano. Esto altera el valor de rango por lo que es necesario efectuar un ajuste así:
+
+
+
+$$Nuevo \ Rango= n_i \cdot i$$
+
+
+
+
+
+#### Ejemplo
+
+Pesos de 30 bebés de gestación completa al momento de nacer
+
+
+$$\begin{array}{lllll}
+7.2 & 7.8 & 6.8 & 6.2 & 8.2 \\
+8.0 & 8.2 & 5.6 & 8.6 & 7.1 \\
+8.2 & 7.7 & 7.5 & 7.2 & 7.7 \\
+5.8 & 6.8 & 6.8 & 8.5 & 7.5 \\
+6.1 & 7.9 & 9.4 & 9.0 & 7.8 \\
+8.5 & 9.0 & 7.7 & 6.7 & 7.7
+\end{array}$$
+
+
+## Construcción Histograma
+
+Escriba los datos en un vector
+
+```{r}
+Pesos<-c(7.2 , 7.8,  6.8 , 6.2,  8.2 ,8.0,  8.2, 5.6, 8.6, 7.1, 
+    8.2, 7.7, 7.5, 7.2, 7.7, 5.8,  6.8,  6.8,  8.5,  7.5,6.1,
+    7.9, 9.4, 9.0, 7.8, 8.5, 9.0, 7.7, 6.7, 7.7)
+
+```
+
+
+
+## sin usar ggplot
+
+```{r}
+hist(Pesos)
+```
+
+
+
+## con mas argumentos
+```{r}
+hist(Pesos, xlim = c(5,10), ylim = c(0,10), main = "Histograma", xlab = "Pesos al nacer",
+     ylab="Frecuencia", col="steelblue")
+```
+
+
+
+## tabla
+
+instalar el paquete 
+
+```{r, echo=TRUE}
+#install.packages("fdth")
+library(fdth) # carga la extensión fdth (para el calculo de distribución de frecuencias.
+```
+
+
+## Calcula la distribución de frecuencias utilizando la regla Sturge
+
+```{r}
+dist <- fdt(Pesos,breaks="Sturges") 
+dist
+```
+## Con ggplot
+
+```{r}
+df.Pesos<-as.data.frame(Pesos)
+```
+
+
+```{r}
+library(ggplot2)
+ggplot(data=df.Pesos , aes(Pesos))+
+  geom_histogram() 
+
+```
+
+
+  
+
+
+## Mejorando el histograma 
+
+```{r}
+ggplot(data=df.Pesos,aes(Pesos))+
+  geom_histogram(binwidth = 0.7,  fill = 'steelblue', color="white") + 
+  xlab("Pesos") + 
+  ylab("Frecuencia") + 
+  ggtitle("Histograma de Pesos") +
+  theme_minimal()
+```
+
+
+
+Con una base de R
+
+
+```{r}
+library(MASS)
+data(Cars93)
+attach(Cars93)
+```
+
+
+
+```{r}
+hist(Price)
+```
+
+```{r}
+?geom_histogram
+```
+
+
+```{r}
+ggplot(data=Cars93, aes(Price))+
+  geom_histogram(color="white", fill="steelblue")
+```
+
+
+
+## MEDIDAS DE CENTRO
+
+
+Una de las primeras mediciones numéricas importantes es
+una **medida de centro**, es decir, una medida a lo largo del eje horizontal que localiza el
+centro de la distribución.
+
+#### Definición:
+La media aritmética o promedio de un conjunto de $n$ mediciones es
+igual a la suma de las mediciones dividida entre $n$.
+
+
+Media muestral:    $\overline{x}=\dfrac{\sum_{i=1}^{n} x_{i}}{n}$
+
+Media poblacional:  $\mu$
+
+
+Ejemplo: 2, 9, 11, 5, 6.
+
+
+
+
+#### Definición
+La mediana $m$ de un conjunto de $n$ mediciones es el valor de x que cae
+en la posición media cuando las mediciones son ordenadas de menor a mayor.
+
+- **Ejemplo:**
+
+Encuentre la mediana para el conjunto de mediciones 2, 9, 11, 5, 6, 27.
+
+
+### Definición
+La moda es la categoría que se presenta con más frecuencia o el valor
+de $x$ que se presenta con más frecuencia. Cuando las mediciones en una variable continua
+se han agrupado como histograma de frecuencia o de frecuencia relativa, la clase
+con el pico más alto o frecuencia se llama clase modal, y el punto medio de esa clase se
+toma como la moda
+
+3, 5, 4, 6, 10, 5, 6, 9, 2, 8.
+
+ Calcule
+
+
+- $\overline{x}$
+-  Encuentre mediana.
+-  Encuentre la moda.
+
+
+
+## MEDIDAS DE VARIABILIDAD
+
+Una medida de dispersión o variabilidad nos determina el grado de acercamiento o distanciamiento de los valores de una distribución frente a su promedio de localización, sobre la base de que entre más grande sea el grado de variación menor uniformidad tendrán los datos (sinónimo de heterogeneidad) y por lo tanto menor representatividad o confiabilidad del promedio de tendencia central o localización por haber sido obtenido de datos dispersos. Por el contrario, si este valor es pequeño (respecto a la unidad de medida) entonces hay una gran uniformidad entre los datos. Cuando es cero quiere decir que todos los datos son iguales.
+
+Hay básicamente dos tipos de medidas de dispersión: Medidas Absolutas y Medidas Relativas. Las absolutas se caracterizan por ser números concretos, es decir, valores expresados en las mismas unidades de la variable en estudio y que por lo tanto no permiten comparaciones o análisis respecto a la mayor o menor dispersión de series expresadas en diferentes unidades. Estas medidas son: la varianza, la desviación estándar y el rango intercuartilico.
+
+Las medidas relativas de dispersión son valores abstractos, es decir, medidas adimensionales y por lo tanto no expresadas en ninguna unidad especifica, obviando así el inconveniente señalado para las medidas absolutas. La principal medida es el coeficiente de variación.
+
+
+**La variabilidad o dispersión** es una muy importante característica de datos. Por ejemplo, si usted fabrica tornillos, la variación extrema en los diámetros de los tornillos causaría un alto porcentaje de productos defectuosos. 
+
+
+**Las medidas de variabilidad** pueden ayudarle a crear una imagen mental de la dispersión
+de los datos. 
+
+
+##### Definición:
+
+El rango, $R$, de un conjunto de $n$ mediciones se define como la diferencia entre la medición más grande y la más pequeña.
+
+
+
+
+#### Definición 
+**La varianza de una población** de $N$ mediciones es el promedio de los
+cuadrados de las desviaciones de las mediciones alrededor de su media $\mu$. La varianza
+poblacional se denota con $\sigma^2$  y está dada por.
+
+
+
+$$\sigma^2=\dfrac{\sum_{i=1}^{N} (x_i-\mu)^2}{N}$$
+  
+
+
+
+
+
+
+#### Definición:
+
+La varianza de una muestra de $n$ mediciones es la suma de las desviaciones cuadradas de las mediciones alrededor la media $\overline{x}$ dividida entre $(n - 1)$. La
+varianza muestral se denota con $S^2$ y está dada por la fórmula
+
+$$\displaystyle S^2=\dfrac{\sum_{i=1}^{n} (x_i-\overline{x})^2}{n-1}$$
+
+
+
+#### Definición
+La desviación estándar de un conjunto de mediciones es igual a la raíz cuadrada positiva de la varianza.
+
+
+### Ejemplo
+Hallar la desviación estandar,  
+
+
+- 2, 3, 6, 8, 11.
+- 12, 6, 7, 3, 15, 10, 18, 5.
+
+
+
+
+
+## MEDICIONES DE POSICIÓN RELATIVA
+A veces es necesario conocer la posición de una observación respecto a otras de un
+conjunto de datos.
+
+### Definición:
+
+El puntaje $z$ muestral es una medida de posición relativa definida  por
+
+$$puntaje  \ \  z = \dfrac{x-\overline{x}}{s}$$
+
+
+Un puntaje $z$ mide la distancia entre una observación y la media, medidas en unidades de desviación estándar.
+
+El puntaje z es una valiosa herramienta para determinar si es probable que una observación
+particular se presente con frecuencia, o si es improbable y puede ser considerada
+como resultado atípico
+
+
+Considere esta muestra de 10 mediciones:
+
+1, 1, 0, 15, 2, 3, 4, 0, 1, 3
+
+
+- **Un percentil** es otra medida de posición relativa y se usa con más frecuencia para conjuntos grandes de datos. (Los percentiles no son muy útiles para conjuntos pequeños de datos.)
+
+
+
+
+
+
+
+
+
+#### Definición:
+Un conjunto de $n$ mediciones de la variable $x$ se ha reacomodado en orden de magnitud. **El $p$-ésimo percentil** es el valor de $x$ que es mayor a $p$\% de las
+mediciones y es menor que el restante $(100 - p)$\%.
+
+
+#### Definición
+
+Un conjunto de $n$ mediciones en la variable $x$ se ha acomodado en orden
+de magnitud.
+
+- El  **cuartil inferior** (primer cuartil), $Q_1$, es el valor de $x$ que es mayor a un
+cuarto de las mediciones y es menor que los restantes tres cuartos. 
+
+- El segundo cuartil es la mediana. 
+
+- El cuartil superior (tercer cuartil), $Q_3$, es el valor de $x$ que es mayor a tres
+cuartos de las mediciones y es menor que el restante un cuarto.
+
+
+- El rango intercuartil **IQR** para un conjunto de mediciones es la diferencia
+entre los cuartiles superior e inferior; esto es, $$IQR = Q_3 - Q_1$$.
+
+
+
+El procedimiento para encontrar el valor de cualquier percentil  a partir de datos clasificados, es el siguiente:
+
+- Encontrar la posición $i$  del percentil $k-ésimo$ mediante el calculo de $nk$.
+- Si $nk$  no es un entero, entonces la posición $i$ es el siguiente entero más grande y entonces el valor de $p_k$ es el dato ordenado en la posición de este entero más grande.
+-  Si $nk$  es un entero, entonces la posición del percentil será $i=nk+0.5$yasí el valor del percentil es el promedio de las observaciones ordenadas $nk$  y $nk+1$
+
+
+
+#### Ejemplo
+A continuación se presentan 20 observaciones en orden del tiempo de falla, en horas, de un material aislante eléctrico (adaptadas del trabajo de Nelson, Applied Life Data Analysis, 1982):
+
+204	228	252	300	324	444	624	720	816	912
+1176	1296	1392	1488	1512	2520	2856	3192	3528	3710
+
+
+Para encontrar el percentil 10, $p_{0.10}$, el valor de $nk=20(0.10=2)$,  es un entero, el número de la posición es , el cual es el promedio de las observaciones segunda y tercera. Por tanto, el percentil $p_{10}=\frac{228+252}{2}=240$ es, lo cual significa que el 10% de los tiempos de fallas del material electrico aislante es aproximadamente inferior a 240 horas.
+
+El percentil 88 se encuentra de manera similar. Puesto que ahora k=0.88, $nk=20(0.88)=17.6$, que no es un entero, y el número de la posición es $i=18$. Por tanto, el percentil 88 es la observación ordenada número 18, esto es $p_{0.88}=3192$; es decir el 88% de los tiempos de fallas del material electrico aislante es aproximadamente inferior a 3192 horas.
+
+```{r}
+e=c(204,	228,	252,	300,	324,	444,	624,	720,	816,	912,1176,	1296,	1392,	1488,	1512,	2520,	2856,	3192,
+    3528,	3710)
+
+quantile(e,0.5)
+#median(e)
+```
+
+### Ejercicios Propuestos
+- Suponga que las notas de los estudiantes de un curso en un examen parcial tuvo una media aritmética de 3.5, pero el profesor decide colocar como nueva nota, el 80% de su nota anterior más uno. ¿ Cúal es la nueva nota promedio del curso?. (esta transformación es conocida como la curva del ocho).
+
+- ¿ Cómo se encuentran ubicados la media, la mediana y la moda cuando la distribución es simétrica, sesgada a la derecha o sesgada a la izquierda?.
+- Determine un conjunto de datos tales que:
+  - La media, mediana y moda sean iguales
+  - La mediana sea mayor que la media
+  - La media sea mayor que la mediana.
+-Para cada uno de los conjuntos de datos del numeral anterior, encuentre los cuartiles 1, 2 y 3 e interprételos
+
+
+####  **Ejemplo**
+A medida que los consumidores estadounidenses tienen más cuidado con los alimentos
+que consumen, los procesadores de alimentos tratan de ser competitivos al evitar cantidades
+excesivas de grasa, colesterol y sodio en los alimentos que venden. Los datos
+siguientes son las cantidades de sodio por rebanada (en miligramos) para cada una de
+ocho marcas de queso regular estadounidense. Construya una gráfica de caja para los
+datos y busque resultados atípicos.\\ 
+
+340, 300, 520, 340, 320, 290, 260, 330
+
+
+```{r}
+sodio=c(340, 300, 520, 340, 320, 290, 260, 330)
+boxplot(sodio)
+
+```
+
+
+```{r}
+summary(sodio)
+```
+
+
+Con nuestra base de datos de R
+
+```{r}
+colnames(Cars93)
+```
+
+
+```{r}
+ggplot(data=Cars93, aes(y=Price))+
+  geom_boxplot(fill="steelblue")
+```
+
+
+```{r}
+ggplot(data=Cars93, aes(y=Price, x=AirBags))+
+  geom_boxplot(fill="steelblue")
+```
+
+```{r}
+ggplot(data=Cars93, aes(y=Price, x=AirBags))+
+  geom_boxplot(fill="steelblue")+
+  geom_jitter(aes(color = AirBags))
+```
+
+```{r}
+quantile(Price,0.5)
+```
+
+
+
+```{r}
+ ggplot(data = Cars93, aes(x = Price))+
+  geom_histogram(fill="steelblue")+
+  facet_wrap(~AirBags)
+```
+
+```{r}
+
+```
+
+
+## Diagrama de dispersión
+### Definición:
+
+Solo para variables cuantitativas, permite ver como es el
+comportamiento de dos variables en lo que se conoce como una
+nube de puntos
+
+
+```{r, echo=F}
+ggplot(data=Cars93, aes(y=MPG.highway, x=EngineSize))+
+  geom_point(color="steelblue")
+```
+
+
+
+
+## Medidas enntre dos variables
+
+#### Covarianza
+La covarianza $s_{x y}$ es una medida que indica la variabilidad conjunta de dos variables cuantitativas y se define como:
+$$
+s_{x y}=\frac{1}{n} \sum_{i=1}^{n}\left(x_{i}-\bar{x}\right)\left(y_{i}-\bar{y}\right)
+$$
+
+
+
+- Si $s_{xy} > 0$ las dos variables crecen o decrecen a la vez.
+- Si $s_{xy} < 0$ una variable crece mientras que la otra decrece.
+- Si $s_{xy} = 0$ no hay relación lineal entre las variables.
+
+
+## Coeficiente de correlación lineal de Pearson
+
+#### Definición
+
+La covarianza está afectada por los cambios de unidad de
+medida. Se define el coeficiente de correlación lineal de Pearson
+como:
+
+$$r=\frac{s_{x y}}{s_{x} s_{y}}=\frac{\frac{1}{n} \sum_{i=1}^{n}\left(x_{i}-\bar{x}\right)\left(y_{i}-\bar{y}\right)}{\sqrt{\frac{1}{n} \sum_{i=1}^{n}\left(x_{i}-\bar{x}\right)^{2}} \sqrt{\frac{1}{n} \sum_{i=1}^{n}\left(y_{i}-\bar{y}\right)^{2}}}$$
+
+
+### Características del coeficiente de correlación
+
+
+- Es adimensional.
+- Es invariante a los cambios de escala.
+- Toma valores entre -1 y 1.
+- Indica fuerte relación lineal entre variables cuando $|r|$ es
+cercano a 1.
+- Si es cercano a 0, puede afirmarse que no existe relación
+lineal entre ambas variables.
+
+
+
+## Ejemplo
+
+Se tienen los siguientes conjuntos de datos $X=\{5,8,9,10,15\}$ cuya media es $\bar{x}=9.4$ y $Y=\{0.1,0.4,0.5,0.9,0.99\}$ cuya media es $\bar{y}=0.578$
+
+
+
+$$\begin{array}{|c|c|c|c|c|}
+\hline X & Y & \left(x_{i}-\bar{x}\right)^{2} & \left(y_{i}-\bar{y}\right)^{2} & \left(x_{i}-\bar{x}\right)\left(y_{i}-\bar{y}\right) \\
+\hline 5 & 0.1 & 19.36 & 0.2285 & 2.1032 \\
+\hline 8 & 0.4 & 1.96 & 0.0317 & 0.2492 \\
+\hline 9 & 0.5 & 0.16 & 0.0061 & 0.0312 \\
+\hline 10 & 0.9 & 0.36 & 0.1037 & 0.1932 \\
+\hline 15 & 0.99 & 31.36 & 0.1697 & 2.3072 \\
+\hline & Suma & 53.20 & 0.5397 & 4.884 \\
+\hline
+\end{array}$$
+
+
+
+
+
+
+De la tabla anterior:
+$$
+s_{x y}=\frac{4.884}{5}=0.9768
+$$
+
+
+- $s_{x}^{2}=\frac{53.2}{5}=10.64 \Rightarrow s_{x}=3.2619$
+- $s_{y}^{2}=\frac{0.5397}{5}=0.1079 \Rightarrow s_{y}=0.3285$
+De donde,
+$$
+r=\frac{0.9768}{(3.2619)(0.3285)}
+$$
+
+
+
+## La regresión
+
+
+En míltiples estudios estadísticos, aparece la necesidad práctica
+de considerar simultáneamente dos o más variables, con el fin de
+analizar si entre ellas existe alguna relación, si la manera se
+puede formalizar y qué tan intensa es la misma
+
+
+El supuesto de partida considera que algunas de las variables
+explican en parte, el comportamiento de otras. Se establece
+una división general entre las variables clasificándolas en dos
+grupos constituidos por las variables independientes o
+explicativas y las variables explicadas o respuesta
+
+
+## Regresión
+\begin{center}
+\includegraphics[scale=0.5]{diagdispersion.png}
+\end{center}
+
+
+
+Un artículo en el Journal of Sound and Vibration (Vol. 151, 1991,
+pp. 383-394) describe un estudio que investiga la relación entre la
+exposición al ruido y la hipertensión. Los siguientes datos son
+representativos de los reportados en el artículo.
+
+
+$$\begin{array}{ccccc}
+x & y & x & y \\
+\hline 60 & 1 & 85 & 5 \\
+63 & 0 & 89 & 4 \\
+65 & 1 & 90 & 6 \\
+70 & 2 & 90 & 8 \\
+70 & 5 & 90 & 4 \\
+70 & 1 & 90 & 5 \\
+80 & 4 & 94 & 7 \\
+90 & 6 & 100 & 9 \\
+80 & 2 & 100 & 7 \\
+80 & 3 & 100 & 6 \\
+\hline
+\end{array}$$
+
+
+
+Aquí la variable $y$ representa el aumento de la presión arterial en
+milímetros de mercurio y la variable $x$ representa el nivel de presión
+acústica en decibeles. 
+
+
+\begin{center}
+\includegraphics[scale=0.7]{dispersion1.png}
+\end{center}
+
+##
+
+Esta presentación claramente sugiere una relación entre la presión
+arterial y la presión acústica; en efecto, la impresión es que los
+puntos de los datos generalmente, pero no exactamente, caen a lo
+largo de una linea recta. La siguiente figura ilustra esta línea recta
+de relación.
+
+
+\begin{center}
+\includegraphics[scale=0.4]{regresion1.png}
+\end{center}
+
+
+
+##
+Si consideramos que $y$ representa la presión arterial y $x$ representa
+la presión acústica, entonces la ecuación de una línea recta que
+relaciona estas dos variables es
+
+\begin{equation}
+y = \beta_0 + \beta_1 x 
+\end{equation}
+
+
+
+- $\beta_0$ es el intercepto y 
+- $\beta_1$ es la pendiente. 
+
+
+
+
