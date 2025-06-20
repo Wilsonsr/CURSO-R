@@ -1,5 +1,5 @@
 ---
-title: "Actividad"
+title: "Actividad  Introduccion a R"
 output: html_document
 date: "2025-06-18"
 ---
@@ -17,16 +17,30 @@ La columna Medalla es una columna categórica con valores y referencias como
 
 cargue la base de datos
 
+
+
 ```{r}
 library(dplyr)
 library(rio)
 library(DT)
 ```
 
+lo anaterior cargo las librerias
+
+para crear chunk (donde va codigo de R) use CTR +ALT +I
+
+```{r}
+2+2
+```
+
+
+
+
 
 ```{r}
 olimpicos= rio::import("https://github.com/Wilsonsr/CURSO-R/raw/main/BASES/olimpicos.csv")
 ```
+
 ```{r}
 head(olimpicos)
 ```
@@ -37,8 +51,9 @@ head(olimpicos)
 
 ```{r}
 # Escriba su código
+dim(olimpicos)
 ```
-
+La base de datos olimpicos contiene 275643 filas y 10 columnas
 
 2. **Cuales son los nombres de las columnas** 
 
