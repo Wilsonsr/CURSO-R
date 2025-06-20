@@ -10,9 +10,9 @@
 
 
 
-<meta name="date" content="2023-06-15" />
+<meta name="date" content="2025-06-18" />
 
-<title>Actividad</title>
+<title>Actividad Introduccion a R</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -349,8 +349,8 @@ display: none;
 
 
 
-<h1 class="title toc-ignore">Actividad</h1>
-<h4 class="date">2023-06-15</h4>
+<h1 class="title toc-ignore">Actividad Introduccion a R</h1>
+<h4 class="date">2025-06-18</h4>
 
 </div>
 
@@ -376,6 +376,10 @@ de plata - 3 : Medalla de oro</p>
 ##     intersect, setdiff, setequal, union</code></pre>
 <pre class="r"><code>library(rio)
 library(DT)</code></pre>
+<p>lo anaterior cargo las librerias</p>
+<p>para crear chunk (donde va codigo de R) use CTR +ALT +I</p>
+<pre class="r"><code>2+2</code></pre>
+<pre><code>## [1] 4</code></pre>
 <pre class="r"><code>olimpicos= rio::import(&quot;https://github.com/Wilsonsr/CURSO-R/raw/main/BASES/olimpicos.csv&quot;)</code></pre>
 <pre class="r"><code>head(olimpicos)</code></pre>
 <pre><code>##   V1                     Name Sex Age           Team       Games Year Season
@@ -396,7 +400,10 @@ library(DT)</code></pre>
 <li><strong>Cuantas filas y columnas tiene la base de
 datos.</strong></li>
 </ol>
-<pre class="r"><code># Escriba su código</code></pre>
+<pre class="r"><code># Escriba su código
+dim(olimpicos)</code></pre>
+<pre><code>## [1] 275643     10</code></pre>
+<p>La base de datos olimpicos contiene 275643 filas y 10 columnas</p>
 <ol start="2" style="list-style-type: decimal">
 <li><strong>Cuales son los nombres de las columnas</strong></li>
 </ol>
