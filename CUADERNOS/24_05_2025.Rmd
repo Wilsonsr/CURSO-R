@@ -1,0 +1,202 @@
+---
+title: "Introducción a R"
+author: "Wilson Sandoval Rodriguez"
+date: "`r Sys.Date()`"
+output:
+  prettydoc::html_pretty:
+    theme: cayman
+    highlight: github
+    float: true
+    toc: true
+---
+
+El paquete plotly permite la construcción de gráficas de alta calidad y permite incorporar la interactividad en los gráficos, mostrando botones para hacer zoom en una parte de la gráfica, redefinir los ejes $X$ e $Y$, mostrar la información que contiene cada dato, mostrar datos filtrando por uno o varios factores… Además, son gráficos de tipo “responsive”: se adaptan a las dimensiones de la ventana en que aparecen.
+
+A continuación se presentan cinco ventajas de usar Plotly para gráficos en R:
+
+### **Plotly es fácil de usar**
+La interfaz de Plotly es muy intuitiva y fácil de usar. Basta con cargar los datos en la interfaz web de Plotly, seleccionar el tipo de gráfico que se desea crear y hacer clic en el botón «Generar gráfico». Plotly también proporciona una interfaz de programación para R, lo que permite crear gráficos de forma programática.
+
+### **Plotly produce gráficos de alta calidad**
+Los gráficos generados por Plotly son de alta calidad y se pueden personalizar fácilmente. Por ejemplo, es posible ajustar el tamaño, el color y la fuente de los gráficos, agregar etiquetas y leyendas, y agregar elementos interactivos como botones y casillas de verificación.
+
+### **Plotly es gratuito y de código abierto**
+Plotly es un software de código abierto, lo que significa que es gratuito de usar. Además, Plotly proporciona una versión gratuita y una versión de pago. La versión gratuita tiene todas las funciones de la versión de pago, pero tiene un límite de 1000 gráficos por cuenta.
+
+### **Plotly es compatible con muchos lenguajes de programación**
+Plotly es compatible con R, Python, MATLAB, Julia y Perl. Además, se puede integrar con aplicaciones de Shiny y Dash.
+
+### **Plotly proporciona soporte técnico**
+Plotly proporciona soporte técnico gratuito a todos sus usuarios. Si tiene algún problema con Plotly, puede ponerse en contacto con el equipo de soporte técnico a través de la interfaz web de Plotly o enviar un correo electrónico a support@plot.ly.
+
+**Ejercicio:** Realice una búsqueda en la página oficial de Plotly (https://plotly.com/r/) y explore otros tipos de gráficos que no se mencionan aquí. 
+
+---
+
+**Tipos de gráficos que se pueden generar con Plotly en R:**
+- Gráficos de barras
+- Gráficos de líneas
+- Gráficos de puntos
+- Gráficos de dispersión
+- Gráficos de torta
+- Gráficos de mapas
+
+**Ejercicio:** Genere un gráfico de líneas en Plotly utilizando la base de datos `mtcars`.
+
+---
+
+La forma de construir los gráficos es:
+```{r}
+library(plotly)
+library(ggplot2)
+```
+
+**Ejercicio:** Explore otras columnas del dataset `mtcars` y construya un gráfico usando variables diferentes.
+
+---
+
+```{r}
+plot_ly(data = mtcars, x = ~cyl, y = ~disp, type="scatter", mode = "markers+text")
+```
+
+**Ejercicio:** Modifique el gráfico anterior para que los puntos se coloreen según la variable `gear` y se etiqueten con los nombres de los autos.
+
+---
+
+```{r}
+plot_ly(data = mtcars, x = ~cyl, y = ~disp, color = ~factor(cyl), type = "scatter", mode = "markers")
+```
+
+**Ejercicio:** Cambie el tipo de gráfico a barras y observe las diferencias.
+
+---
+
+```{r}
+library(plotly)
+m <- highlight_key(mpg)
+p <- ggplot(m, aes(displ, hwy)) + geom_point()
+gg <- highlight(ggplotly(p), "plotly_selected")
+crosstalk::bscols(gg, DT::datatable(m))
+```
+
+**Ejercicio:** Explore la funcionalidad de selección interactiva de este gráfico. ¿Qué ocurre cuando selecciona algunos puntos?
+
+---
+
+```{r}
+mtcars %>% plot_ly(x = ~hp, y = ~mpg, type = "scatter", color = I("black"), size = ~cyl) %>%
+  add_lines(y = ~fitted(loess(mpg ~ hp)), line = list(color = '#07A4B5'), name = "Loess Smoother", showlegend = TRUE) %>%
+  layout(xaxis = list(title = 'horse power '), yaxis = list(title = 'Miles/(US) gallon'), legend = list(x = 0.80, y = 0.90))
+```
+
+**Ejercicio:** Cambie el suavizador LOESS por una regresión lineal simple.
+
+---
+
+**Gráficos con Gapminder:**
+```{r}
+library(dplyr)
+library(gapminder)
+```
+
+**Ejercicio:** Filtre los datos para el año 1997 (si existe) y grafique Expectativa de vida vs PIB per cápita.
+
+---
+
+**Escala logarítmica y colores:**
+```{r}
+gapminder_2007 %>% plot_ly(x = ~gdpPercap, y = ~lifeExp, color = ~continent, size = ~pop) %>% layout(xaxis = list(type = "log"))
+```
+
+**Ejercicio:** Realice el mismo gráfico para el año 1952.
+
+---
+
+**Gráficos de barras y resumen:**
+```{r}
+by_continent <- gapminder_2007 %>% group_by(continent) %>% summarize(meanLifeExp = mean(lifeExp))
+plot_ly(by_continent, x = ~continent, y = ~meanLifeExp, type = 'bar')
+```
+
+**Ejercicio:** Cree un barplot que muestre el PIB per cápita promedio para el año 1952 por continente.
+
+---
+
+**Histogramas y Boxplots:**
+```{r}
+plot_ly(gapminder_2007, x = ~lifeExp, type = 'histogram')
+```
+
+**Ejercicio:** Modifique el histograma para que tenga un tamaño de bin distinto y agregue un título.
+
+```{r}
+plot_ly(gapminder_2007, x = ~continent, y = ~lifeExp, type = 'box')
+```
+
+**Ejercicio:** Haga un boxplot del PIB per cápita de 1952 usando escala logarítmica.
+
+---
+
+**Gráfico dinámico animado:**
+```{r}
+plot_ly(data = gapminder, x = ~gdpPercap, y = ~lifeExp, color = ~continent, size = ~pop, frame = ~year, text = ~country, type = 'scatter', mode = 'markers') %>% layout(xaxis = list(type = 'log'))
+```
+
+**Ejercicio:** Observe la evolución de Colombia a lo largo del tiempo. ¿Qué patrones identifica?
+
+---
+
+**Fechas en R:**
+```{r}
+as.Date('1998/9/15')
+as.Date('Marzo/15: 1992', format = '%B/%d: %Y')
+```
+
+**Ejercicio:** Convierta al menos tres fechas diferentes en objetos Date utilizando formatos variados.
+
+---
+
+**lubridate y manipulación avanzada:**
+```{r}
+library(lubridate)
+fecha <- ymd(20201201)
+cat(paste("Año:", year(fecha), "Mes:", month(fecha), "Día:", mday(fecha)))
+```
+
+**Ejercicio:** Cree una fecha con hora y zona horaria, luego extraiga el año, mes, día, hora y minuto.
+
+---
+
+**Series de tiempo con xts:**
+```{r}
+library(xts)
+dates <- seq(as.Date("2021-01-01"), by = "days", length.out = 10)
+data <- rnorm(10)
+serie <- xts(data, order.by = dates)
+serie
+```
+
+**Ejercicio:** Cree una serie de 100 observaciones y filtre solo el primer mes.
+
+```{r}
+serie["2021-01-03/2021-01-07"]
+```
+
+**Ejercicio:** Obtenga los últimos 5 días del último mes de la serie.
+
+---
+
+**Conclusión:**
+
+- Plotly permite explorar visualmente los datos de forma interactiva.
+- Lubridate facilita el manejo y manipulación de fechas.
+- xts y zoo permiten trabajar series de tiempo de forma flexible y potente.
+
+**Ejercicio final:**
+- Importe cualquier conjunto de datos de su elección.
+- Realice al menos dos gráficos diferentes con Plotly.
+- Trabaje con fechas usando lubridate.
+- Cree una serie de tiempo con xts.
+
+La práctica es fundamental. Experimente, explore y modifique los ejemplos para consolidar su aprendizaje.
+
