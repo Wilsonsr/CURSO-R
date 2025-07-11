@@ -1,35 +1,70 @@
 ---
-title: "Untitled"
-author: "Wilson Sandoval"
-date: "`r Sys.Date()`"
-output: ioslides_presentation
+title: "Manejo de datos"
+author: ""
+date:  "`r Sys.Date()` "
+output:
+  prettydoc::html_pretty:
+    theme: cayman
+    highlight: github
+    float: true
+    toc: true 
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-## R Markdown
+## Importación y exportación
 
-This is an R Markdown presentation. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+![](https://github.com/Wilsonsr/CURSO-R/raw/main/BASES/Import_Export.png)
+ **Objetivo**
+ 
+Aprender a importar y exportar datos desde y hacia múltiples formatos en R, incluyendo CSV, Excel, TXT, RDS, SPSS, entre otros, usando tanto funciones especializadas como el paquete rio.
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document.
 
-## Slide with Bullets
+## 1. CSV con readr
+```r
+library(readr)
 
-- Bullet 1
-- Bullet 2
-- Bullet 3
+# Leer un archivo CSV
+df_csv <- read_csv("datos/archivo.csv")
 
-## Slide with R Output
 
-```{r cars, echo = TRUE}
-summary(cars)
 ```
 
-## Slide with Plot
 
-```{r pressure}
-plot(pressure)
+
+## 2. Excel con readxl
+```r
+library(readxl)
+
+# Leer la primera hoja del archivo Excel
+df_excel <- read_excel("datos/archivo.xlsx")
+
+# Leer una hoja específica
+df_hoja2 <- read_excel("datos/archivo.xlsx", sheet = "Hoja2")
+
+```
+## 3. TXT delimitado
+
+```r
+library(readr)
+
+# Leer archivo TXT con tabulaciones
+df_txt <- read_delim("datos/archivo.txt", delim = "\t")
+
+# Leer archivo CSV con punto y coma
+df_csv2 <- read_csv2("datos/archivo_punto_coma.csv")
+
+```
+## 4. Uso de rio (importación automática)
+
+```r
+library(rio)
+
+# Importar según extensión del archivo
+df1 <- import("datos/archivo.csv")
+df2 <- import("datos/archivo.xlsx")
+df3 <- import("datos/archivo.sav")  # SPSS
 ```
 
