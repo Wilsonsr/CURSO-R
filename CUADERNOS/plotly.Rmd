@@ -72,7 +72,7 @@ head(mtcars)
 ```
 
 ```{r}
-plot_ly(  data = mtcars,   x = ~cyl,  y = ~disp, type="scatter", mode = "markers+text")
+plot_ly(data = mtcars,   x = ~cyl,  y = ~disp, type="scatter", mode = "markers+ text", text=~vs)
 ```
 La `plot_ly()`función inicializó la biblioteca de gráficos mientras `data = df` indica el marco de datos donde se almacenan los datos. `x = ~cyle` `y = ~dispindicar` las columnas a graficar en cada eje.
 
@@ -108,7 +108,10 @@ mtcars%>%plot_ly( x = ~hp, y = ~mpg, type = "scatter",
          legend = list(x = 0.80, y = 0.90))
 ```
 ```{r}
-fig <- ggplot2 :: ggplot ( data = mtcars, aes ( x = cyl, y = disp ) )  + geom_point ( aes ( color = factor ( cyl ) ) ) 
+fig <- ggplot2 :: ggplot ( data = mtcars, aes ( x = cyl, y = disp ) )  +
+  geom_point ( aes ( color = factor ( cyl ) ) ) 
+
+
 ggplotly ( fig )
 ```
 
@@ -130,7 +133,7 @@ gapminder_2007<- gapminder %>% filter(year==2007)
 ```
 
 ```{r}
-plot_ly(gapminder_1952, x = ~gdpPercap, y = ~lifeExp) 
+plot_ly(gapminder_1952, x = ~gdpPercap, y = ~lifeExp, type="scatter", mode="markers") 
   
 ```
 
@@ -218,23 +221,23 @@ gapminder_2007 %>%  plot_ly(x = ~gdpPercap, y = ~lifeExp, color = ~continent) %>
 ```
 
 ```{r}
-gapminder_2007 %>%  plot_ly(x = ~gdpPercap, y = ~lifeExp, color = ~continent, size=~pop) %>% layout(xaxis=list(type="log"))
+gapminder_2007 %>%  plot_ly(x = ~gdpPercap, y = ~lifeExp, color = ~country, size=~pop) %>% layout(xaxis=list(type="log"))
 ```
 
 
 
 
-- Ejercicio: Dibuje Tamañoo de población (en escala logarítmica) vs expectativa de vida, y coloree por continente
+- Ejercicio: Dibuje Tamaño de población (en escala logarítmica) vs expectativa de vida, y coloree por continente
 
 ```{r}
-
+gapminder_2007 %>%  plot_ly(x = ~pop, y = ~lifeExp, color = ~continent) %>% layout(xaxis=list(type="log"))
 ```
 
 
 
 
 ```{r}
-p1=ggplot(gapminder_1952,aes(x=pop,y=lifeExp))+
+p1=ggplot(gapminder_1952,aes(x=gdpPercap,y=lifeExp))+
   geom_point()+
   scale_x_log10()+
   facet_wrap(~continent)
@@ -273,14 +276,17 @@ by_continent<- gapminder %>%
   summarize(meanLifeExp=mean(lifeExp))
 ```
 
+```{r}
+by_continent
+```
+
 
 ```{r}
 
 
-plot_ly(by_continent, x = ~continent, y = ~meanLifeExp, type = 'bar') 
+plot_ly(by_continent, x = ~continent, y = ~meanLifeExp, type = 'bar', color= ~continent) %>% layout(title="Esperanza de vida promedio por continente ")
 
 ```
-
 
 
 
@@ -292,6 +298,9 @@ by_continent<- gapminder %>%
   filter(year == 1952) %>% 
   group_by(continent) %>% 
   summarize(medianGdpPercap=median(gdpPercap))
+ by_continent=  by_continent %>% arrange(desc(medianGdpPercap))
+ by_continent
+
 ```
 
 
@@ -306,6 +315,9 @@ plot_ly(by_continent, x = ~continent, y = ~medianGdpPercap, type = 'bar') %>%
 
 
 - Ejercicio: Filtre las observacioens para Oceania el 1952 y realice un barplot del GDP per capita
+```{r}
+
+```
 
 
 
@@ -316,7 +328,7 @@ plot_ly(by_continent, x = ~continent, y = ~medianGdpPercap, type = 'bar') %>%
 ```{r}
 library(plotly)
 
-plot_ly(gapminder_2007, x = ~lifeExp, type = 'histogram') 
+plot_ly(gapminder_2007, x = ~lifeExp, type = 'histogram', nbinsx=30)
 
 ```
 
@@ -352,6 +364,7 @@ gapminder_2007 <- gapminder %>%
 ggplot(gapminder_2007,aes(x=continent, y=lifeExp))+
   geom_boxplot()
 ```
+
 ```{r}
 
 plot_ly(gapminder_2007, x = ~continent, y = ~lifeExp, type = 'box') 
@@ -408,9 +421,8 @@ library(TSstudio)
 ```
 
 ```{r}
-dt=seq(as.Date("1952/01/01"), as.Date("2007/01/01"),by="5 year")
-length(dt)
-
+dt=seq(as.Date("1952-01-01"), as.Date("2007/01/01"),by="5 year")
+dt
 ```
 
 ```{r}
@@ -503,7 +515,7 @@ as.Date("Septiembre 15, 1998", format = "%B %d, %Y")
 
 
 ```{r}
-as.Date("15JUNIO1998", format = "%d%b%Y")
+as.Date("15JUNIO1998", format = "%d%B%Y")
 
 ```
 
@@ -521,8 +533,12 @@ fechitas <- c(birthday = as.Date("SepTIEMBRE 15, 1998", format = "%B %d, %Y"),
               begin = as.Date("Enero 2, 1970", format = "%B %d, %Y"),
               other = as.Date("15JUNIO1998", format = "%d%b%Y"),
               other2 = as.Date('1998-09-15'),
-              today = as.Date("2023/06/21")) 
+              today = as.Date("2025/06/24")) 
 
+fechitas
+```
+
+```{r}
 weekdays(fechitas)
 ```
 
@@ -536,6 +552,11 @@ quarters(fechitas)
 ```
 
 ## OperacionesBásicas
+
+```{r}
+fechitas
+```
+
 
 ```{r}
 mean(fechitas)
@@ -587,6 +608,9 @@ f2 <- as.Date("2020/12/7")
 difftime(f1,f2, units = "secs")
 
 ```
+
+
+
 ```{r}
 cat(paste("Minutos: ",difftime(f1,f2, units = "mins"),
 "\nHoras: ",difftime(f1,f2, units = "hours"),
@@ -606,13 +630,16 @@ cat(paste("Fecha actual: ",today(),
 ```
 
 ```{r}
-cat(paste("ymd: ",ymd("2020-12-01"),
+now()
+```
+
+
+```{r}
+cat(paste("ymd: ",ymd("2020/12/01"),
           "\nmdy: ", mdy("December 1st, 2020"),
           "\ndmy: ", dmy("01-Dec-2020")))
 
 ```
-
-
 
 Además de poder hacerlas con un objeto numérico:
 
@@ -637,9 +664,13 @@ Donde la zona horaria puede ser fácil agregada
 ydm_hms("2020-12-01 15:50:56", tz = "UTC")
 ```
 
+```{r}
+with_tz( now(), "utc")
+```
 
 
-lubridate añade lapsos de tiempos más allá de los que se pueden obtener con difftime.
+
+`lubridate }  añade lapsos de tiempos más allá de los que se pueden obtener con difftime.
 
 ## Extracciones
 Vamos a tomar el ejemplo dado por ymd(20201201) para obtener algunas componentes con distintas funciones que nos proporciona lubridate.
@@ -658,7 +689,7 @@ cat(paste("Fecha: ", fecha,
 Además se puede agregar el nombre abreviado (o no) de algunas componentes
 
 ```{r}
-cat(paste("Mes: ", month(fecha, label = TRUE, abbr = TRUE),
+cat(paste("Mes: ", month(fecha, label = TRUE, abbr = FALSE),
           "\nDía de la semana: ", wday(fecha, label = TRUE, abbr = FALSE)))
 ```
 
@@ -699,7 +730,7 @@ Aunque al estar tratando con segundos exactos, podemos tener resultados inespera
 
 ## Zoo y xts
 
-Cuando se esta trabajando con una serie de tiempo se acostumbra el uso de los objetos ts proporcionados por el constructor stats::ts(), aunque otra alternativa más amigable para la manipulación de fechas en series de tiempo la proporciona xts, la cual es una librería derivada de zoo. Para una introducción sobre series de tiempo en R, se puede consultar el siguiente link.
+Cuando se esta trabajando con una serie de tiempo se acostumbra el uso de los objetos `ts` proporcionados por el constructor `stats::ts()`, aunque otra alternativa más amigable para la manipulación de fechas en series de tiempo la proporciona `xts`, la cual es una librería derivada de zoo. Para una introducción sobre series de tiempo en R, se puede consultar el siguiente link.
 
 Además de proporcionar funciones y filtros para manipular de manera más sencilla que con un objeto ts, se tienen algunas ventajas sobre los objetos ts ya que estos, al distribuir sus tiempos de manera uniforme y de igual longitud, pueden conllevar a problemas cuando no se tenga esta estructura en los datos, como en datos financieros. Con los objetos zoo y xts no se tendrá problema al trata con tiempos espaciados de manera irregular.
 
@@ -708,19 +739,21 @@ Para objetos zoo y xts, se deben dar dos componentes fundamentales: coredata e i
 ```{r}
 library(zoo)
 library(xts)
-set.seed(10)
+set.seed(10)   ### SEMILLAS 
 ```
 
 
 #coredata
 ```{r}
 data <- rgamma(n = 10, shape = 10, scale = 0.5)
+data
 ```
 
 
 # index
 ```{r}
 dates <- seq(as.Date("2021-01-01"), length = 10, by = "days")
+dates
 ```
 
 
