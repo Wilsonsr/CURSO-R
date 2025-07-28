@@ -1,6 +1,6 @@
 ---
-title: "Manejo de datos"
-author: ""
+title: "Fortalecimiento en Estadística-ARREM"
+author: "Wilson Sandoval"
 date:  "`r Sys.Date()` "
 output:
   prettydoc::html_pretty:
@@ -9,10 +9,6 @@ output:
     float: true
     toc: true 
 ---
-
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
-```
 
 ## Importación y exportación
 
@@ -66,5 +62,159 @@ library(rio)
 df1 <- import("datos/archivo.csv")
 df2 <- import("datos/archivo.xlsx")
 df3 <- import("datos/archivo.sav")  # SPSS
+```
+
+
+
+#5. Exportación de resultados
+
+En esta sección se exportan los datos limpios en distintos formatos, de forma que puedan ser usados posteriormente en informes, análisis o compartidos con otros usuarios.
+
+Se utilizará principalmente la librería `rio`, que permite importar y exportar datos en múltiples formatos con una única función (`import()` y `export()`), facilitando el trabajo del analista.
+
+### 📦 Librerías necesarias
+
+
+```r
+
+# Librería principal para exportar fácilmente en múltiples formatos
+library(rio)
+
+# Alternativas si deseas más control:
+library(writexl)  # Para Excel
+```
+
+✅ Exportar con rio::export()
+
+```r 
+
+# Exportar a Excel (.xlsx)
+export(df, "datos_limpios.xlsx")
+```
+
+
+```r
+# Exportar a CSV (.csv, con punto decimal)
+export(df, "datos_limpios.csv")
+
+```
+
+# Exportar a RDS (formato nativo de R)
+export(df, "datos_limpios.rds")
+Estas tres líneas generan:
+
+Un archivo de Excel fácil de abrir y compartir
+
+Un CSV compatible con otras herramientas (p. ej., Python, Excel, SPSS)
+
+Un archivo RDS ideal para recargar el dataframe en futuras sesiones de R con readRDS() sin perder tipos ni estructura
+
+📁 Exportar CSV con coma decimal (formato colombiano)
+
+```r
+write.csv2(df, "datos_limpios_colombia.csv", row.names = FALSE)
+
+```
+
+write.csv2() usa ; como separador de columnas y , como separador decimal, útil para reportes en regiones como Colombia o Europa.
+
+📁 Exportar con writexl (Excel sin dependencias externas)
+```r
+writexl::write_xlsx(df, "datos_limpios_alt.xlsx")
+```
+
+
+Esta opción genera archivos Excel sin requerir Java ni otras librerías adicionales.
+
+
+
+```{r}
+pacman::p_load(
+  rio,          # Importación de ficheros
+  here,         # localizador de ficheros
+  skimr,        # obtener una visión general de los datos
+  tidyverse,    # gestión de datos + gráficos ggplot2 
+  gtsummary,    # resumen estadístico y tests
+  rstatix,      # resumen estadístico y pruebas estadísticas
+  janitor,      # añadir totales y porcentajes a las tablas
+  scales,       # convertir fácilmente proporciones en porcentajes  
+  flextable     # convertir tablas en imágenes bonitas
+  )
+```
+
+```{r}
+# importar el listado de casos
+linelist <- import("C:/Users/wsand/Downloads/linelist_cleaned.rds")
+head(linelist)
+```
+
+
+
+
+
+```{r}
+library(skimr)
+## obtener información sobre cada variable de un conjunto de datos 
+skim(linelist)
+
+```
+
+17.3 paquete janitor 
+Los paquetes janitor ofrecen la función tabyl() para producir tabulaciones y tabulaciones cruzadas, que pueden ser “adornadas” o modificadas con funciones de ayuda para mostrar porcentajes, proporciones, recuentos, etc.
+
+A continuación, enlazamos el dataframe linelist con pipe a las funciones de limpieza e imprimimos el resultado. Si lo deseas, también puedes guardar las tablas resultantes con el operador de asignación <-.
+
+Tabyl simple
+El uso por defecto de tabyl() en una columna específica produce los valores únicos, los recuentos y sus proporciones por columna. Las proporciones pueden tener muchos dígitos. Puedes ajustar el número de decimales con adorn_rounding() como se describe a continuación.
+```{r}
+linelist %>% tabyl(age_cat)
+
+```
+
+
+Como puedes ver arriba, si hay valores que faltan se muestran en una fila etiquetada como NA. Puedes suprimirlos con show_na = FALSE. Si no hay valores faltantes, esta fila no aparecerá. Si hay valores faltantes, todas las proporciones se dan como crudas (el denominador incluye los recuentos de NA) y “válidas” (el denominador excluye los recuentos de NA).
+
+Si la columna es de tipo factor y sólo hay ciertos niveles en sus datos, todos los niveles seguirán apareciendo en la tabla. Puedes suprimir esta característica especificando show_missing_levels = FALSE. Lee más en la página de Factores.
+
+### Tabulación cruzada
+Los recuentos de tabulación cruzada se consiguen añadiendo una o más columnas adicionales dentro de tabyl(). Ten en cuenta que ahora sólo se muestran los recuentos - Las proporciones y porcentajes se pueden añadir con los pasos adicionales que se muestran a continuación.
+```{r}
+linelist %>% tabyl(age_cat, gender)
+```
+
+✨ Adornando un tabyl con janitor
+Las funciones de adorno del paquete janitor permiten modificar y mejorar la presentación de tablas tabyl. Puedes encadenarlas con el operador |> o %>% para aplicar múltiples transformaciones consecutivamente.
+
+| Función                  | Resultado                                                                                                                                                              |
+| ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `adorn_totals()`         | Añade los totales. Usa `where = "row"`, `"col"`, o `"both"`. Puedes cambiar el nombre del total con `name = "Total"`.                                                  |
+| `adorn_percentages()`    | Convierte recuentos en proporciones. Usa `denominator = "row"`, `"col"` o `"all"`.                                                                                     |
+| `adorn_pct_formatting()` | Convierte proporciones en porcentajes. Controla los decimales con `digits =`. Elimina `%` con `affix_sign = FALSE`.                                                    |
+| `adorn_rounding()`       | Redondea proporciones a `digits =`. Para porcentajes, es preferible `adorn_pct_formatting()`.                                                                          |
+| `adorn_ns()`             | Añade los recuentos a una tabla de proporciones o porcentajes. Usa `position = "rear"` para mostrarlos entre paréntesis al final, o `"front"` para ponerlos al inicio. |
+| `adorn_title()`          | Añade títulos a las filas o columnas con `row_name =` y/o `col_name =`. Ideal para presentación en tablas cruzadas.                                                    |
+
+```{r}
+linelist %>%               # lista de casos
+  tabyl(age_cat) %>%       # tabular recuentos y proporciones por categoría de edad
+  adorn_pct_formatting()   # convertir proporciones en porcentajes
+```
+
+
+
+
+```{r}
+linelist %>%
+  tabyl(age_cat, gender) %>% 
+  adorn_totals(where = "col") %>% 
+  adorn_percentages(denominator = "col") %>% 
+  adorn_pct_formatting() %>% 
+  adorn_ns(position = "front") %>% 
+  adorn_title(
+    row_name = "Age Category",
+    col_name = "Gender",
+    placement = "combined") %>% # esto es necesario para imprimir como imagen
+  flextable::flextable() %>%    # convertir a imagen bonita
+  flextable::autofit()          # formatear a una línea por fila  
 ```
 
